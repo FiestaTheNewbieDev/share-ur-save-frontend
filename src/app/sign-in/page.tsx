@@ -1,28 +1,17 @@
-import SignInForm from '@/components/auth/authForms/SignInForm';
 import AuthLayout from '@/components/auth/AuthLayout';
+import SignInForm from '@/components/auth/forms/SignInForm';
+import Link from 'next/link';
 
-export default async function Page() {
+export default function Page() {
 	return (
 		<AuthLayout
-			left={
+			leftContent={<SignInForm />}
+			rightContent={
 				<>
-					<h1 className="hidden" aria-hidden="true">
-						Sign In
-					</h1>
-					<SignInForm />
-				</>
-			}
-			right={
-				<>
-					<span className="text-center text-white">
-						No account yet?
-					</span>
-					<a
-						href="/sign-up"
-						className="mx-auto w-fit rounded-lg border-2 border-white p-2 px-8 text-center text-white"
-					>
+					<span className="text-center">No account yet?</span>
+					<Link href="/sign-up" className="cta-btn">
 						Sign Up
-					</a>
+					</Link>
 				</>
 			}
 		/>

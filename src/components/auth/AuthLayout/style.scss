@@ -1,0 +1,74 @@
+div.auth-layout {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+
+	& > div.container {
+		margin: var(--spacing-large);
+		display: grid;
+		grid-template-columns: 1fr;
+		width: 100%;
+		@apply max-w-screen-lg shadow-lg md:h-2/3 md:grid-cols-2;
+
+		& > div.left-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-large);
+			background-color: white;
+
+			& > [class$='-form'] {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				gap: var(--spacing-small);
+
+				& > h1 {
+					@apply text-center text-2xl font-semibold;
+				}
+
+				& > div.row {
+					display: flex;
+					flex-direction: column;
+					gap: var(--spacing-xsmall);
+
+					& > label {
+						@apply text-sm;
+					}
+				}
+
+				& > button.submit-btn {
+					padding: var(--spacing-xsmall);
+					background: var(--color-brand-red);
+					color: white;
+					@apply rounded-lg;
+				}
+			}
+		}
+
+		& > div.right-content {
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing-small);
+			align-items: center;
+			justify-content: center;
+			padding: var(--spacing-large);
+			background-color: var(--color-anthracite);
+			color: white;
+
+			& > .cta-btn {
+				margin-inline: auto;
+				width: fit-content;
+				border: 2px solid white;
+				padding-block: var(--spacing-xsmall);
+				padding-inline: var(--spacing-large);
+				text-align: center;
+				@apply rounded-lg;
+			}
+		}
+	}
+}

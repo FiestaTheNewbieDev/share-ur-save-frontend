@@ -1,10 +1,9 @@
-import Navbar from '@/components/navbar/Navbar';
-import StoreProvider from '@/components/StoreProvider';
-import classNames from 'classnames';
-import type { Metadata } from 'next';
+import { RootContextProvider } from '@/app/context';
+import Navbar from '@/components/Navbar';
+import '@/styles/global.scss';
+import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Toaster } from 'sonner';
-import './globals.scss';
+import { cookies } from 'next/headers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,19 +11,27 @@ export const metadata: Metadata = {
 	title: 'ShareUrSave',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	let user = null;
+
+	const cookieStore = cookies();
+	const userHeader = cookieStore.get('x-user');
+
+	if (userHeader) {
+		user = JSON.parse(userHeader.value);
+	}
+
 	return (
 		<html lang="en">
-			<body className={classNames(inter.className, 'bg-slate-50')}>
-				<StoreProvider>
-					<Toaster richColors position="top-center" closeButton />
+			<body className={inter.className}>
+				<RootContextProvider userFromServer={user}>
 					<Navbar />
 					{children}
-				</StoreProvider>
+				</RootContextProvider>
 			</body>
 		</html>
 	);

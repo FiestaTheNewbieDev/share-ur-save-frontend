@@ -1,0 +1,72 @@
+nav.navbar {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	width: 100%;
+	background-color: white;
+	@apply shadow-lg;
+
+	& > div.container {
+		display: flex;
+		margin-inline: auto;
+		@apply max-w-screen-xl;
+		justify-content: space-between;
+		padding-inline: var(--spacing-medium);
+
+		& > .brand-logo {
+			display: flex;
+			align-items: center;
+			background-color: var(--color-brand-red);
+			color: white;
+			padding: var(--spacing-small);
+
+			& > svg {
+				height: 2.4rem;
+				width: 2.4rem;
+			}
+		}
+
+		& > div.content {
+			display: none;
+			@apply md:flex;
+			flex: 1;
+			justify-content: end;
+
+			& > div.nav-items {
+				display: flex;
+
+				& > .nav-item {
+					display: flex;
+					align-items: center;
+					gap: var(--spacing-xsmall);
+					padding-inline: var(--spacing-small);
+					@apply text-lg font-semibold transition-colors duration-300 ease-in-out;
+
+					&:hover {
+						background-color: var(--color-anthracite);
+						color: white;
+					}
+
+					:active {
+						background-color: var(--color-anthracite);
+						color: white;
+					}
+
+					&[data-active='true'] {
+						background-color: var(--color-anthracite);
+						color: white;
+					}
+				}
+			}
+		}
+
+		& > button.collapse-btn {
+			margin-block: auto;
+			align-items: center;
+			justify-content: center;
+			height: 2.4rem;
+			width: 2.4rem;
+			@apply rounded-lg text-sm md:hidden;
+		}
+	}
+}

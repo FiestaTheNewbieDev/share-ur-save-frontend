@@ -1,0 +1,7 @@
+form.sign-in-form {
+	.forgot-password-link {
+		margin-left: auto;
+		width: fit-content;
+		@apply text-sm text-neutral-500;
+	}
+}
