@@ -68,7 +68,7 @@ export default function SignInForm() {
 			</div>
 
 			<button type="submit" className="submit-btn">
-				Sign Up
+				Sign In
 			</button>
 		</form>
 	);

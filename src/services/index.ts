@@ -1,17 +1,9 @@
 import authService from '@/services/auth';
-import axios from 'axios';
-
-const API = axios.create({
-	baseURL: process.env.NEXT_PUBLIC_API_URL,
-	headers: {
-		Accept: 'application/json',
-	},
-	withCredentials: true,
-});
+import gamesService from '@/services/games';
 
 const SERVICES = {
 	auth: authService,
+	games: gamesService,
 };
 
-export { API };
 export default SERVICES;

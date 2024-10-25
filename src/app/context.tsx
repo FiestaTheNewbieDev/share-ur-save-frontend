@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@/types/user';
+import { User } from '@/types/users';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface IRootContext {
