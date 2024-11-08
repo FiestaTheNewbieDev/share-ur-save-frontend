@@ -26,7 +26,7 @@ export default function Input(props: Input) {
 					onClick={props.startIconOnClick}
 					className="start-icon"
 					{...(props.startIconOnClick && {
-						'...data-clickable': true,
+						'data-clickable': true,
 					})}
 				/>
 			)}
@@ -45,7 +45,7 @@ export default function Input(props: Input) {
 					onClick={props.endIconOnClick}
 					className="end-icon"
 					{...(props.endIconOnClick && {
-						'...data-clickable': true,
+						'data-clickable': true,
 					})}
 				/>
 			)}

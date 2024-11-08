@@ -1,9 +1,10 @@
 import { RootContextProvider } from '@/app/context';
 import Navbar from '@/components/Navbar';
 import '@/styles/global.scss';
+import { User } from '@/types/users';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { cookies } from 'next/headers';
+import { headers } from 'next/headers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,13 +17,11 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	let user = null;
-
-	const cookieStore = cookies();
-	const userHeader = cookieStore.get('x-user');
+	let user: User | null = null;
+	const userHeader = headers().get('X-User-Info');
 
 	if (userHeader) {
-		user = JSON.parse(userHeader.value);
+		user = JSON.parse(atob(userHeader));
 	}
 
 	return (

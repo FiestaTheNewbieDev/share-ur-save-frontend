@@ -51,7 +51,23 @@ function NavItem({ label, icon, href, urls, spanStyle }: NavItem) {
 function AuthNavItems() {
 	const user = useUser();
 
-	return <></>
+	console.log(user);
+
+	if (user)
+		return (
+			<NavItem
+				label={user.displayName || user.username}
+				href="/profile"
+				urls={['/profile']}
+			/>
+		);
+
+	return (
+		<>
+			<NavItem label="Sign In" href="/sign-in" urls={['/sign-in']} />
+			<NavItem label="Sign Up" href="/sign-up" urls={['/sign-up']} />
+		</>
+	);
 }
 
 const NAV_ITEMS: NavItem[] = [

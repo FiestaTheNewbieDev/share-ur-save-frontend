@@ -1,12 +1,13 @@
 {
-	"name": "front",
+	"name": "share-ur-save-frontend",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"start": "next start -p 80",
 		"dev": "next dev -p 8080",
 		"build": "next build",
-		"lint": "next lint"
+		"lint": "next lint",
+		"common:up": "yarn upgrade share-ur-save-common"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.6.0",
@@ -36,6 +37,7 @@
 		"prettier": "^3.3.3",
 		"prettier-plugin-organize-imports": "^4.0.0",
 		"prettier-plugin-tailwindcss": "^0.6.5",
+		"share-ur-save-common": "git+https://github.com/FiestaTheNewbieDev/share-ur-save-common",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
 	}

@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 	} catch (error) {}
 
 	let response = NextResponse.next();
-	if (user) response.headers.set('x-user', JSON.stringify(user));
+	if (user) response.headers.set('X-User-Info', btoa(JSON.stringify(user)));
 
 	if (PRIVATE_ROUTES.includes(request.nextUrl.pathname) && !user) {
 		response = NextResponse.redirect(new URL('/sign-in', request.url));

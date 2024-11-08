@@ -1,9 +1,10 @@
 import SERVICES from '@/services';
 import axios from 'axios';
 import { notFound } from 'next/navigation';
+import { CombinedGame } from 'share-ur-save-common';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-	let game;
+	let game: CombinedGame;
 
 	try {
 		const response = await SERVICES.games.fetchGame(params.slug);
@@ -11,9 +12,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			console.log(error.response);
-			if (error.response?.status === 404) notFound();
+			if (error.response?.status === 404) return notFound();
 		}
 	}
 
-	return <p></p>;
+	if (!game) return notFound();
+
+	return <p>{game.name}</p>;
 }
