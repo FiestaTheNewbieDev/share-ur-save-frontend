@@ -4,8 +4,15 @@ import { User } from '@/types/users';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface IRootContext {
-	user: User | null;
-	setUser: (user: User) => void;
+	auth: {
+		user: User;
+		setUser: (user: User) => void;
+	};
+	navbar: {
+		isOpen: boolean;
+		setNavOpen: (isOpen: boolean) => void;
+		toggleNavbar: () => void;
+	};
 }
 
 const RootContext = createContext<IRootContext>({} as IRootContext);
@@ -14,14 +21,22 @@ function RootContextProvider({
 	userFromServer,
 	children,
 }: {
-	userFromServer: User | null;
+	userFromServer: User;
 	children: ReactNode;
 }) {
-	const [user, setUser] = useState<User | null>(userFromServer || null);
+	const [user, setUser] = useState<User>(userFromServer || null);
+	const [isOpen, setNavOpen] = useState<boolean>(false);
 
 	const value = {
-		user,
-		setUser,
+		auth: {
+			user,
+			setUser,
+		},
+		navbar: {
+			isOpen,
+			setNavOpen,
+			toggleNavbar: () => setNavOpen(!isOpen),
+		},
 	};
 
 	return (
@@ -30,7 +45,11 @@ function RootContextProvider({
 }
 
 function useUser() {
-	return useContext(RootContext).user;
+	return useContext(RootContext).auth.user;
 }
 
-export { RootContext, RootContextProvider, useUser };
+function useNavbar() {
+	return useContext(RootContext).navbar;
+}
+
+export { RootContext, RootContextProvider, useNavbar, useUser };
