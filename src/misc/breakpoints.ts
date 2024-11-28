@@ -1,0 +1,14 @@
+const BREAKPOINTS: Record<string, number> = {
+	MOBILE_S: 320,
+	MOBILE_M: 375,
+	MOBILE_L: 425,
+	TABLET: 768,
+	TABLET_L: 1024,
+	LAPTOP_S: 1280,
+	LAPTOP_M: 1366,
+	LAPTOP_L: 1440,
+	DESKTOP: 1920,
+	DESKTOP_L: 2560,
+};
+
+export default BREAKPOINTS;

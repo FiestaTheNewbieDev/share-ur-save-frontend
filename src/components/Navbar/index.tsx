@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { useNavbar, useUser } from '@/app/context';
-import MiniSearchbar from '@/components/searchbar/MiniSearchbar';
+import QuickSearchbar from '@/components/searchbar/QuickSearchbar';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {
 	faBars,
@@ -106,7 +106,7 @@ export default function Navbar() {
 						<Link href="/" className="brand-logo">
 							<FontAwesomeIcon icon={faGamepad} />
 						</Link>
-						<MiniSearchbar full />
+						<QuickSearchbar full />
 						<div className="nav-items">
 							{NAV_ITEMS.map((item, index) => (
 								<NavItem key={index} {...item} />

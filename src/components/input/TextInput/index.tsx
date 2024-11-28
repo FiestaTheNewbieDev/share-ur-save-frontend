@@ -1,4 +1,3 @@
-import classNames from '@/misc/classNames';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HTMLInputAutoCompleteAttribute, InputHTMLAttributes } from 'react';
@@ -22,7 +21,7 @@ type Input = {
 export default function TextInput(props: Input) {
 	return (
 		<div
-			className={classNames('text-input', props.className)}
+			className={`text-input ${props.className}`}
 			{...(props.full && { 'data-full': true })}
 		>
 			{props.startIcon && (
