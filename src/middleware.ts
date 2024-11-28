@@ -1,11 +1,11 @@
+import privateRoutesMiddleware from '@/middlewares/privateRoutesMiddleware';
+import publicRoutesMiddleware from '@/middlewares/publicRoutesMiddleware';
 import SERVICES from '@/services';
+import { User } from '@/types/users';
 import { NextRequest, NextResponse } from 'next/server';
 
-const PRIVATE_ROUTES = ['/profile'];
-const PUBLIC_ROUTES = ['/sign-in', '/sign-up'];
-
 export async function middleware(request: NextRequest) {
-	let user = null;
+	let user: User = null;
 	try {
 		user = (
 			await SERVICES.auth.fetchUser(
@@ -17,16 +17,9 @@ export async function middleware(request: NextRequest) {
 	let response = NextResponse.next();
 	if (user) response.headers.set('X-User-Info', btoa(JSON.stringify(user)));
 
-	if (PRIVATE_ROUTES.includes(request.nextUrl.pathname) && !user) {
-		response = NextResponse.redirect(new URL('/sign-in', request.url));
-		response.headers.set('Cache-Control', 'no-store');
-	}
+	response = privateRoutesMiddleware(request, response, user);
 
-	if (PUBLIC_ROUTES.includes(request.nextUrl.pathname) && user) {
-		const referer = request.headers.get('referer') || '/profile';
-		response = NextResponse.redirect(new URL(referer, request.url));
-		response.headers.set('Cache-Control', 'no-store');
-	}
+	response = publicRoutesMiddleware(request, response, user);
 
 	return response;
 }
