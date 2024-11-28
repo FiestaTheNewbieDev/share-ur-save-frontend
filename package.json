@@ -7,7 +7,7 @@
 		"dev": "next dev -p 8080",
 		"build": "next build",
 		"lint": "next lint",
-		"common:up": "yarn upgrade share-ur-save-common"
+		"common:up": "npm up share-ur-save-common"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.6.0",
@@ -22,7 +22,7 @@
 		"react-dom": "^18",
 		"react-redux": "^9.1.2",
 		"sass": "^1.77.8",
-		"sonner": "^1.5.0"
+		"sonner": "^1.7.0"
 	},
 	"devDependencies": {
 		"@types/js-cookie": "^3.0.6",
