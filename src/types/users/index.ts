@@ -1,9 +1,3 @@
-export type User = {
-	uuid: string;
-	username: string;
-	displayName: string | null;
-	email: string;
-	createdAt: Date;
-	updatedAt: Date;
-	deletedAt: Date | null;
-};
+import { User as PrismaUser } from 'share-ur-save-common';
+
+export type User = Omit<PrismaUser, 'password'> | null;
