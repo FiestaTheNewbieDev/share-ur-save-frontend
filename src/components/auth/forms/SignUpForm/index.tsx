@@ -1,6 +1,7 @@
 'use client';
 
-import Input from '@/components/auth/forms/Input';
+import TextInput from '@/components/input/TextInput';
+import useToast from '@/hooks/useToast';
 import SERVICES from '@/services';
 import {
 	faEnvelope,
@@ -9,15 +10,14 @@ import {
 	faLock,
 	faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function SignUpForm() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-	const router = useRouter();
+	const toast = useToast();
 
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -26,11 +26,6 @@ export default function SignUpForm() {
 			event.currentTarget.password.value !==
 			event.currentTarget.passwordConfirmation.value
 		) {
-			console.table(
-				event.currentTarget.password.value,
-				event.currentTarget.passwordConfirmation.value,
-			);
-
 			toast.error('Passwords do not match');
 			return;
 		}
@@ -44,20 +39,31 @@ export default function SignUpForm() {
 		toast.promise(SERVICES.auth.signUp(data), {
 			loading: 'Signing up...',
 			success: () => {
-				router.push('/profile');
+				window.location.href = '/profile/me';
 				return 'Signed up successfully';
 			},
-			// error: (error) => {
-			// 	if (error.message.includes('__')) {
-			// 		const errorMessages = error.message.split('__').reverse();
-			// 		for (let i = 1; i < errorMessages.length; i++)
-			// 			toast.error(errorMessages[i]);
+			error: (error: Error) => {
+				if (
+					error instanceof AxiosError &&
+					error.response?.data?.message
+				) {
+					if (Array.isArray(error.response.data.message)) {
+						for (
+							let i = error.response.data.message.length - 2;
+							i >= 0;
+							i--
+						) {
+							toast.error(error.response.data.message[i]);
+						}
+						return error.response.data.message[
+							error.response.data.message.length - 1
+						];
+					}
+					return error.response?.data.message;
+				}
 
-			// 		return errorMessages[0];
-			// 	} else {
-			// 		return error.message;
-			// 	}
-			// },
+				return 'Oops! Something went wrong';
+			},
 		});
 	}
 
@@ -67,29 +73,31 @@ export default function SignUpForm() {
 
 			<div className="row">
 				<label>Username</label>
-				<Input
+				<TextInput
 					id="username"
 					type="text"
 					placeholder="Username"
 					autoComplete="username"
 					startIcon={faUser}
+					full
 				/>
 			</div>
 
 			<div className="row">
 				<label>Email</label>
-				<Input
+				<TextInput
 					id="email"
 					type="email"
 					placeholder="Email"
 					autoComplete="email"
 					startIcon={faEnvelope}
+					full
 				/>
 			</div>
 
 			<div className="row">
 				<label>Password</label>
-				<Input
+				<TextInput
 					id="password"
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Password"
@@ -97,12 +105,13 @@ export default function SignUpForm() {
 					startIcon={faLock}
 					endIcon={showPassword ? faEyeSlash : faEye}
 					endIconOnClick={() => setShowPassword(!showPassword)}
+					full
 				/>
 			</div>
 
 			<div className="row">
 				<label>Password Confirmation</label>
-				<Input
+				<TextInput
 					id="passwordConfirmation"
 					type={showConfirmPassword ? 'text' : 'password'}
 					placeholder="Password Confirmation"
@@ -111,6 +120,7 @@ export default function SignUpForm() {
 					endIconOnClick={() =>
 						setShowConfirmPassword(!showConfirmPassword)
 					}
+					full
 				/>
 			</div>
 

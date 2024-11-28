@@ -1,39 +1,45 @@
+@import '../../styles/breakpoints.scss';
+
 nav.navbar {
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	width: 100%;
-	background-color: white;
+	position: relative;
+	z-index: 150;
 	@apply shadow-lg;
 
-	& > div.container {
-		display: flex;
-		margin-inline: auto;
-		@apply max-w-screen-xl;
-		justify-content: space-between;
-		padding-inline: var(--spacing-medium);
-
-		& > .brand-logo {
-			display: flex;
-			align-items: center;
-			background-color: var(--color-brand-red);
-			color: white;
-			padding: var(--spacing-small);
-
-			& > svg {
-				height: 2.4rem;
-				width: 2.4rem;
-			}
-		}
+	& > div.navbar__container {
+		background-color: white;
+		border-bottom: 1px solid var(--color-neutral-200);
 
 		& > div.content {
-			display: none;
-			@apply md:flex;
-			flex: 1;
-			justify-content: end;
+			display: flex;
+			margin-inline: auto;
+			max-width: var(--laptop-s);
+			justify-content: space-between;
+			gap: var(--spacing-medium);
+			padding-inline: var(--spacing-medium);
+
+			& > .brand-logo {
+				display: flex;
+				align-items: center;
+				background-color: var(--color-brand-red);
+				color: white;
+				padding: var(--spacing-small);
+
+				& > svg {
+					height: 2.4rem;
+					width: 2.4rem;
+				}
+			}
+
+			& > .mini-searchbar {
+				margin-block: auto;
+			}
 
 			& > div.nav-items {
 				display: flex;
+
+				@media (max-width: $tablet) {
+					display: none;
+				}
 
 				& > .nav-item {
 					display: flex;
@@ -41,10 +47,10 @@ nav.navbar {
 					gap: var(--spacing-xsmall);
 					padding-inline: var(--spacing-small);
 					@apply text-lg font-semibold transition-colors duration-300 ease-in-out;
+					text-wrap: nowrap;
 
 					&:hover {
-						background-color: var(--color-anthracite);
-						color: white;
+						background-color: var(--color-neutral-200);
 					}
 
 					&:active {
@@ -52,21 +58,87 @@ nav.navbar {
 						color: white;
 					}
 
-					&[data-active='true'] {
+					&[data-active] {
 						background-color: var(--color-anthracite);
 						color: white;
 					}
 				}
 			}
+
+			& > button.toggle-btn {
+				margin-block: auto;
+				align-items: center;
+				justify-content: center;
+				height: 2.4rem;
+				width: 2.4rem;
+				border-radius: var(--rounded-xsmall);
+
+				@media (min-width: $tablet) {
+					display: none;
+				}
+			}
+		}
+	}
+
+	& > div.navbar__mobile-container {
+		position: absolute;
+		transform: translateY(-100%);
+		transition: ease-in-out transform 0.3s;
+		background-color: white;
+		padding-block: var(--spacing-small);
+		z-index: -10;
+		width: 100%;
+
+		@media (min-width: $tablet) {
+			display: none;
 		}
 
-		& > button.collapse-btn {
-			margin-block: auto;
-			align-items: center;
-			justify-content: center;
-			height: 2.4rem;
-			width: 2.4rem;
-			@apply rounded-lg text-sm md:hidden;
+		&:not([data-collapsed]) {
+			transform: translateY(0);
+		}
+
+		& > div.nav-items {
+			& > .nav-item {
+				display: flex;
+				align-items: center;
+				gap: var(--spacing-xsmall);
+				padding-inline: var(--spacing-small);
+				padding-block: var(--spacing-xsmall);
+
+				&:hover {
+					background-color: var(--color-neutral-200);
+				}
+
+				&:active {
+					background-color: var(--color-anthracite);
+					color: white;
+				}
+
+				&[data-active] {
+					background-color: var(--color-anthracite);
+					color: white;
+				}
+			}
+		}
+	}
+}
+
+div.navbar__overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 100;
+	pointer-events: none;
+	opacity: 0;
+	transition: ease-in-out opacity 0.3s;
+
+	@media (max-width: $tablet) {
+		&[data-visible] {
+			opacity: 1;
+			pointer-events: auto;
 		}
 	}
 }

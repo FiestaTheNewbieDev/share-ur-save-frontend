@@ -1,0 +1,7 @@
+div.mini-searchbar {
+	width: fit-content;
+
+	&[data-full] {
+		width: 100%;
+	}
+}

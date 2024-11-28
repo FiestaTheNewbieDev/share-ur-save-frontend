@@ -1,5 +1,9 @@
+@import '../../../styles/breakpoints.scss';
+
 div.auth-layout {
-	position: fixed;
+	position: absolute;
+	top: 0;
+	left: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -11,7 +15,14 @@ div.auth-layout {
 		display: grid;
 		grid-template-columns: 1fr;
 		width: 100%;
-		@apply max-w-screen-lg shadow-lg md:h-2/3 md:grid-cols-2;
+		max-width: var(--tablet-l);
+
+		@media (min-width: $tablet-l) {
+			height: 66.666667%;
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@apply shadow-lg;
 
 		& > div.left-content {
 			display: flex;
@@ -28,7 +39,8 @@ div.auth-layout {
 				gap: var(--spacing-small);
 
 				& > h1 {
-					@apply text-center text-2xl font-semibold;
+					text-align: center;
+					@apply text-2xl font-semibold;
 				}
 
 				& > div.row {
@@ -45,7 +57,7 @@ div.auth-layout {
 					padding: var(--spacing-xsmall);
 					background: var(--color-brand-red);
 					color: white;
-					@apply rounded-lg;
+					border-radius: var(--rounded-xsmall);
 				}
 			}
 		}
@@ -67,7 +79,7 @@ div.auth-layout {
 				padding-block: var(--spacing-xsmall);
 				padding-inline: var(--spacing-large);
 				text-align: center;
-				@apply rounded-lg;
+				border-radius: var(--rounded-xsmall);
 			}
 		}
 	}

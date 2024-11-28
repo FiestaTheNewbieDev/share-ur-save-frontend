@@ -1,11 +1,12 @@
+import classNames from '@/misc/classNames';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HTMLInputAutoCompleteAttribute, InputHTMLAttributes } from 'react';
 import './style.scss';
 
 type Input = {
-	className?: string;
 	id?: string;
+	className?: string;
 	type?: InputHTMLAttributes<HTMLInputElement>['type'];
 	placeholder?: string;
 	value?: any;
@@ -15,19 +16,21 @@ type Input = {
 	startIconOnClick?: () => void;
 	endIcon?: IconDefinition;
 	endIconOnClick?: () => void;
-};
+	full?: boolean;
+} & {};
 
-export default function Input(props: Input) {
+export default function TextInput(props: Input) {
 	return (
-		<div className="input">
+		<div
+			className={classNames('text-input', props.className)}
+			{...(props.full && { 'data-full': true })}
+		>
 			{props.startIcon && (
 				<FontAwesomeIcon
 					icon={props.startIcon}
 					onClick={props.startIconOnClick}
 					className="start-icon"
-					{...(props.startIconOnClick && {
-						'data-clickable': true,
-					})}
+					{...(props.startIconOnClick && { 'data-clickable': true })}
 				/>
 			)}
 			<input
@@ -44,9 +47,7 @@ export default function Input(props: Input) {
 					icon={props.endIcon}
 					onClick={props.endIconOnClick}
 					className="end-icon"
-					{...(props.endIconOnClick && {
-						'data-clickable': true,
-					})}
+					{...(props.endIconOnClick && { 'data-clickable': true })}
 				/>
 			)}
 		</div>

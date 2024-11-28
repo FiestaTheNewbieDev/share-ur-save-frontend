@@ -5,6 +5,7 @@ import { User } from '@/types/users';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { headers } from 'next/headers';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,8 +18,8 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	let user: User | null = null;
-	const userHeader = headers().get('X-User-Info');
+	let user: User = null;
+	const userHeader = (await headers()).get('X-User-Info');
 
 	if (userHeader) {
 		user = JSON.parse(atob(userHeader));
@@ -26,10 +27,15 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body id="root" className={inter.className}>
 				<RootContextProvider userFromServer={user}>
+					<Toaster
+						position="top-center"
+						closeButton={true}
+						richColors
+					/>
 					<Navbar />
-					{children}
+					<main>{children}</main>
 				</RootContextProvider>
 			</body>
 		</html>
