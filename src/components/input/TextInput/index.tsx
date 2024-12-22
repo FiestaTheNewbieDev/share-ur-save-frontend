@@ -39,6 +39,7 @@ export default function TextInput({ translate, ...props }: Input) {
 				{...(props.full && { 'data-full': true })}
 			>
 				<textarea
+					id={props.id}
 					className="text-area"
 					placeholder={props.placeholder}
 					rows={props.textarea?.rows || 5}

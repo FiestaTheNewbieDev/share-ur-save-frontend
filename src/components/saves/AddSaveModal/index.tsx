@@ -32,7 +32,7 @@ export default function AddSaveModal({ gameUuid, visible, onClose }: IProps) {
 
 			<div className="separator" />
 
-			<AddSaveForm gameUuid={gameUuid} />
+			<AddSaveForm gameUuid={gameUuid} onSuccess={onClose} />
 		</Modal>
 	);
 }
