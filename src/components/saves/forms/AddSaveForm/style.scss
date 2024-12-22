@@ -1,0 +1,15 @@
+form.add-save__form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-small);
+
+	& > div.row {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-xsmall);
+
+		& > label {
+			font-size: var(--font-size-small);
+		}
+	}
+}

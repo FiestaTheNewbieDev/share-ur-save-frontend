@@ -1,8 +1,10 @@
+'use client';
+
 import BREAKPOINTS from '@/misc/breakpoints';
 import { useEffect, useState } from 'react';
 
 export default function useBreakpoint() {
-	const [width, setWidth] = useState<number>(window.innerWidth);
+	const [width, setWidth] = useState<number>(0);
 
 	function getBreakpoint(width: number) {
 		let current = 'MOBILE_S';
@@ -20,6 +22,8 @@ export default function useBreakpoint() {
 			const newWidth = window.innerWidth;
 			setWidth(newWidth);
 		};
+
+		handleResize();
 
 		window.addEventListener('resize', handleResize);
 

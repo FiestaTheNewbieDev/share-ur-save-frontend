@@ -1,6 +1,6 @@
 import requester from '@/services/requester';
 import { ApiResponse } from '@/types/requester';
-import { CombinedGame, GameSearchResult } from 'share-ur-save-common';
+import { CombinedGame, GameSearchResult, Ordering } from 'share-ur-save-common';
 
 type GamesService = {
 	fetchGame: typeof fetchGame;
@@ -15,18 +15,21 @@ export async function fetchGame(
 
 export async function fetchGames(
 	keyword?: string,
-	size?: number,
+	params: { size?: number; ordering?: Ordering } = {},
 ): Promise<
 	ApiResponse<{ keyword: string; count: number; games: GameSearchResult[] }>
 > {
-	const params = new URLSearchParams('/games');
+	const urlParams = new URLSearchParams('/games');
 
-	if (keyword) params.append('keyword', keyword);
-	if (size) params.append('size', size.toString());
+	if (keyword) urlParams.append('keyword', keyword);
+
+	for (const [key, value] of Object.entries(params)) {
+		urlParams.append(key, value.toString());
+	}
 
 	// @ts-ignore
 	return requester(false).get<{ games: GameSearchResult[] }>(
-		`/games?${params.toString()}`,
+		`/games?${urlParams.toString()}`,
 	);
 }
 

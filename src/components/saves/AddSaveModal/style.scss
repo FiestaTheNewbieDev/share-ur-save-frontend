@@ -1,0 +1,20 @@
+div.add-save__modal {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-small);
+
+	& > div.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		& > i {
+		}
+	}
+
+	& > div.separator {
+		height: 1px;
+		background-color: var(--color-neutral-200);
+		width: 100%;
+	}
+}

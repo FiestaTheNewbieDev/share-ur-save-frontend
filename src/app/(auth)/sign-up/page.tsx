@@ -7,10 +7,10 @@ export default function Page() {
 			leftContent={<SignUpForm />}
 			rightContent={
 				<>
-					<span className="text-center">
+					<span className="text-center weglot-translate">
 						Already have an account?
 					</span>
-					<a href="/sign-in" className="cta-btn">
+					<a href="/sign-in" className="cta-btn weglot-translate">
 						Sign In
 					</a>
 				</>

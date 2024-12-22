@@ -1,9 +1,6 @@
 @import '../../../styles/breakpoints.scss';
 
 div.auth-layout {
-	position: absolute;
-	top: 0;
-	left: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -40,7 +37,8 @@ div.auth-layout {
 
 				& > h1 {
 					text-align: center;
-					@apply text-2xl font-semibold;
+					font-weight: var(--font-weight-bold);
+					font-size: var(--font-size-xlarge);
 				}
 
 				& > div.row {
@@ -49,7 +47,7 @@ div.auth-layout {
 					gap: var(--spacing-xsmall);
 
 					& > label {
-						@apply text-sm;
+						font-size: var(--font-size-small);
 					}
 				}
 

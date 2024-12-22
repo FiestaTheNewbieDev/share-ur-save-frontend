@@ -2,13 +2,21 @@
 
 import { useEffect, useState } from 'react';
 
-import { useNavbar, useUser } from '@/app/context';
+import Backdrop from '@/components/Backdrop';
+import Button from '@/components/button/Button';
+import AuthNavItems from '@/components/Navbar/AuthNavItems';
+import MobileQuickSearchbar from '@/components/searchbar/MobileQuickSearchbar';
 import QuickSearchbar from '@/components/searchbar/QuickSearchbar';
+import useBreakpoint from '@/hooks/useBreakpoint';
+import BREAKPOINTS from '@/misc/breakpoints';
+import NAV_ITEMS from '@/misc/navItems';
+import BackdropActions from '@/store/ui/backdrop/actions';
+import NavbarActions from '@/store/ui/navbar/actions';
+import useNavbar from '@/store/ui/navbar/selector';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {
 	faBars,
 	faGamepad,
-	faHome,
 	faX,
 	IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
@@ -17,17 +25,82 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import './style.scss';
 
-type NavItem = {
+export default function Navbar() {
+	const [zIndex, setZIndex] = useState(0);
+
+	const { isOpen } = useNavbar();
+	const breakpoint = useBreakpoint();
+
+	useEffect(() => {
+		if (isOpen) {
+			BackdropActions.push('navbar');
+		} else {
+			BackdropActions.remove('navbar');
+		}
+	}, [isOpen]);
+
+	return (
+		<>
+			<Backdrop
+				className="navbar__backdrop"
+				id="navbar"
+				onClick={() => NavbarActions.setNavOpen(false)}
+				setZIndex={setZIndex}
+			/>
+			<nav className="navbar" style={{ zIndex: zIndex }}>
+				<div className="navbar__container">
+					<div className="content">
+						<Link href="/" className="brand-logo">
+							<FontAwesomeIcon icon={faGamepad} />
+						</Link>
+						{breakpoint.width > BREAKPOINTS.TABLET ? (
+							<QuickSearchbar full />
+						) : (
+							<MobileQuickSearchbar />
+						)}
+						<div className="nav-items">
+							{NAV_ITEMS.map((item, index) => (
+								<Navbar.Item key={index} {...item} />
+							))}
+							<AuthNavItems />
+						</div>
+						<Button
+							className="toggle-btn"
+							onClick={NavbarActions.toggleNavbar}
+						>
+							<FontAwesomeIcon icon={isOpen ? faX : faBars} />
+						</Button>
+					</div>
+				</div>
+
+				<div
+					className="navbar__mobile-container"
+					{...(!isOpen && { 'data-collapsed': true })}
+				>
+					<div className="nav-items">
+						{NAV_ITEMS.map((item, index) => (
+							<Navbar.Item key={index} {...item} />
+						))}
+						<AuthNavItems />
+					</div>
+				</div>
+			</nav>
+		</>
+	);
+}
+
+Navbar.displayName = 'Navbar';
+
+export interface INavItem {
 	label: string;
 	icon?: IconDefinition;
 	href: string;
 	urls: string[];
 	spanStyle?: React.CSSProperties;
-};
+	translate?: boolean;
+}
 
-function NavItem({ label, icon, href, urls, spanStyle }: NavItem) {
-	const nav = useNavbar();
-
+function NavItem({ label, icon, href, urls, spanStyle, translate }: INavItem) {
 	const [active, setActive] = useState(false);
 	const pathname = usePathname();
 
@@ -46,96 +119,16 @@ function NavItem({ label, icon, href, urls, spanStyle }: NavItem) {
 			className="nav-item"
 			href={href}
 			{...(active && { 'data-active': true })}
-			onClick={() => nav.setNavOpen(false)}
+			onClick={() => NavbarActions.setNavOpen(false)}
 		>
 			<span style={spanStyle}>
 				{icon && <FontAwesomeIcon icon={icon} />}
-				{label}
+				<span className={translate ? 'weglot-translate' : ''}>
+					{label}
+				</span>
 			</span>
 		</Link>
 	);
 }
 
-function AuthNavItems() {
-	const user = useUser();
-
-	if (user)
-		return <NavItem label="Profile" href="/profile" urls={['/profile']} />;
-
-	return (
-		<>
-			<NavItem label="Sign In" href="/sign-in" urls={['/sign-in']} />
-			<NavItem label="Sign Up" href="/sign-up" urls={['/sign-up']} />
-		</>
-	);
-}
-
-const NAV_ITEMS: NavItem[] = [
-	{
-		label: 'Home',
-		icon: faHome,
-		href: '/',
-		urls: ['/'],
-		spanStyle: {
-			display: 'flex',
-			gap: 'var(--spacing-xsmall)',
-			alignItems: 'baseline',
-		},
-	},
-	{
-		label: 'Games',
-		icon: faGamepad,
-		href: '/games',
-		urls: ['/games', '/game'],
-		spanStyle: {
-			display: 'flex',
-			gap: 'var(--spacing-xsmall)',
-			alignItems: 'center',
-		},
-	},
-];
-
-export default function Navbar() {
-	const { isOpen, setNavOpen, toggleNavbar } = useNavbar();
-
-	return (
-		<>
-			<nav className="navbar">
-				<div className="navbar__container">
-					<div className="content">
-						<Link href="/" className="brand-logo">
-							<FontAwesomeIcon icon={faGamepad} />
-						</Link>
-						<QuickSearchbar full />
-						<div className="nav-items">
-							{NAV_ITEMS.map((item, index) => (
-								<NavItem key={index} {...item} />
-							))}
-							<AuthNavItems />
-						</div>
-						<button className="toggle-btn" onClick={toggleNavbar}>
-							<FontAwesomeIcon icon={isOpen ? faX : faBars} />
-						</button>
-					</div>
-				</div>
-
-				<div
-					className="navbar__mobile-container"
-					{...(!isOpen && { 'data-collapsed': true })}
-				>
-					<div className="nav-items">
-						{NAV_ITEMS.map((item, index) => (
-							<NavItem key={index} {...item} />
-						))}
-						<AuthNavItems />
-					</div>
-				</div>
-			</nav>
-			<div
-				className="navbar__overlay"
-				onClick={() => setNavOpen(false)}
-				{...(isOpen && { 'data-visible': true })}
-			/>
-		</>
-	);
-}
+Navbar.Item = NavItem;

@@ -1,0 +1,26 @@
+div.popover__wrapper {
+	position: relative;
+	width: fit-content;
+	height: fit-content;
+
+	& > div.popover {
+		position: absolute;
+		transform: translateY(var(--spacing-xsmall));
+		width: 100%;
+		background-color: white;
+		border-radius: var(--rounded-small);
+		border: 1px solid var(--color-neutral-200);
+		z-index: 100;
+		padding-block: var(--spacing-small);
+		opacity: 0;
+		pointer-events: none;
+		transition: ease-in-out opacity 0.3s;
+		top: 100%;
+		@apply shadow-lg;
+
+		&[data-visible] {
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
+}

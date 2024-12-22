@@ -2,6 +2,7 @@ form.sign-in-form {
 	.forgot-password-link {
 		margin-left: auto;
 		width: fit-content;
-		@apply text-sm text-neutral-500;
+		color: var(--color-neutral-500);
+		font-size: var(--font-size-small);
 	}
 }

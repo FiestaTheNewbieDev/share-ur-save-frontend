@@ -1,0 +1,33 @@
+div.modal__container {
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	pointer-events: none;
+	transition: ease-in-out opacity 0.3s;
+
+	&[data-visible] {
+		opacity: 1;
+
+		& > div.modal {
+			pointer-events: auto;
+		}
+	}
+
+	& > div.modal {
+		max-width: var(--tablet);
+		width: 100%;
+		margin: var(--spacing-large);
+		background-color: white;
+		border-radius: var(--rounded-large);
+		padding: var(--spacing-medium);
+		pointer-events: none;
+
+		@apply shadow-lg;
+	}
+}

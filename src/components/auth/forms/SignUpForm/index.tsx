@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/button/Button';
 import TextInput from '@/components/input/TextInput';
 import useToast from '@/hooks/useToast';
 import SERVICES from '@/services';
@@ -69,11 +70,12 @@ export default function SignUpForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className="sign-up-form">
-			<h1>Sign Up</h1>
+			<h1 className="weglot-translate">Sign Up</h1>
 
 			<div className="row">
-				<label>Username</label>
+				<label className="weglot-translate">Username</label>
 				<TextInput
+					className="weglot-translate"
 					id="username"
 					type="text"
 					placeholder="Username"
@@ -84,8 +86,9 @@ export default function SignUpForm() {
 			</div>
 
 			<div className="row">
-				<label>Email</label>
+				<label className="weglot-translate">Email</label>
 				<TextInput
+					className="weglot-translate"
 					id="email"
 					type="email"
 					placeholder="Email"
@@ -96,8 +99,9 @@ export default function SignUpForm() {
 			</div>
 
 			<div className="row">
-				<label>Password</label>
+				<label className="weglot-translate">Password</label>
 				<TextInput
+					className="weglot-translate"
 					id="password"
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Password"
@@ -110,8 +114,11 @@ export default function SignUpForm() {
 			</div>
 
 			<div className="row">
-				<label>Password Confirmation</label>
+				<label className="weglot-translate">
+					Password Confirmation
+				</label>
 				<TextInput
+					className="weglot-translate"
 					id="passwordConfirmation"
 					type={showConfirmPassword ? 'text' : 'password'}
 					placeholder="Password Confirmation"
@@ -124,9 +131,14 @@ export default function SignUpForm() {
 				/>
 			</div>
 
-			<button type="submit" className="submit-btn">
+			<Button
+				type="submit"
+				className="weglot-translate"
+				variant="primary"
+				full
+			>
 				Sign Up
-			</button>
+			</Button>
 		</form>
 	);
 }

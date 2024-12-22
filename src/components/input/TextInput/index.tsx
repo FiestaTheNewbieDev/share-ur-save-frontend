@@ -1,29 +1,54 @@
+import cn from '@/misc/classNames';
+import { TranslationStatus } from '@/types/weglot';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HTMLInputAutoCompleteAttribute, InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 import './style.scss';
 
-type Input = {
-	id?: string;
-	className?: string;
-	type?: InputHTMLAttributes<HTMLInputElement>['type'];
-	placeholder?: string;
-	value?: any;
-	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	autoComplete?: HTMLInputAutoCompleteAttribute;
+type Input = InputHTMLAttributes<HTMLInputElement> & {
+	type?: 'text' | 'password' | 'email' | 'search' | 'tel' | 'url';
 	startIcon?: IconDefinition;
 	startIconOnClick?: () => void;
 	endIcon?: IconDefinition;
 	endIconOnClick?: () => void;
 	full?: boolean;
-} & {};
+	translate?: TranslationStatus;
+	textarea?:
+		| {
+				rows?: number;
+				resize?: 'none' | 'both' | 'horizontal' | 'vertical';
+		  }
+		| boolean;
+};
 
-export default function TextInput(props: Input) {
+export default function TextInput({ translate, ...props }: Input) {
+	const classNames = cn(
+		'text-input',
+		props.className,
+		translate === 'translate'
+			? 'weglot-translate'
+			: translate === 'ignore'
+				? 'weglot-ignore'
+				: '',
+	);
+
+	if (props.textarea)
+		return (
+			<div
+				className={classNames}
+				{...(props.full && { 'data-full': true })}
+			>
+				<textarea
+					className="text-area"
+					placeholder={props.placeholder}
+					rows={props.textarea?.rows || 5}
+					style={{ resize: props.textarea?.resize || 'none' }}
+				/>
+			</div>
+		);
+
 	return (
-		<div
-			className={`text-input ${props.className}`}
-			{...(props.full && { 'data-full': true })}
-		>
+		<div className={classNames} {...(props.full && { 'data-full': true })}>
 			{props.startIcon && (
 				<FontAwesomeIcon
 					icon={props.startIcon}
@@ -32,15 +57,7 @@ export default function TextInput(props: Input) {
 					{...(props.startIconOnClick && { 'data-clickable': true })}
 				/>
 			)}
-			<input
-				id={props.id}
-				className={props.className}
-				type={props.type}
-				placeholder={props.placeholder}
-				value={props.value}
-				onChange={props.onChange}
-				autoComplete={props.autoComplete}
-			/>
+			<input {...props} className="input" />
 			{props.endIcon && (
 				<FontAwesomeIcon
 					icon={props.endIcon}

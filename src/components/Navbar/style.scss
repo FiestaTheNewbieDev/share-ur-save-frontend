@@ -2,7 +2,6 @@
 
 nav.navbar {
 	position: relative;
-	z-index: 150;
 	@apply shadow-lg;
 
 	& > div.navbar__container {
@@ -30,8 +29,13 @@ nav.navbar {
 				}
 			}
 
-			& > .mini-searchbar {
+			& > .quick-searchbar {
 				margin-block: auto;
+			}
+
+			& > button.mobile-quick-searchbar__button {
+				margin-block: auto;
+				margin-left: auto;
 			}
 
 			& > div.nav-items {
@@ -41,24 +45,56 @@ nav.navbar {
 					display: none;
 				}
 
-				& > .nav-item {
+				& > div.user-nav-item__popover__wrapper {
+					height: 100%;
+					width: 100%;
+
+					& > .nav-item {
+						height: 100%;
+					}
+
+					& > div.popover {
+						top: calc(100% - var(--spacing-small));
+						right: 0;
+						min-width: 100%;
+						width: fit-content;
+
+						& > .links {
+							display: flex;
+							flex-direction: column;
+							border-bottom: 1px solid var(--color-neutral-200);
+						}
+
+						.link {
+							padding-inline: var(--spacing-small);
+							padding-block: var(--spacing-xsmall);
+							text-align: right;
+							width: 100%;
+
+							&:hover,
+							&:active {
+								background-color: var(--color-neutral-200);
+							}
+						}
+					}
+				}
+
+				.nav-item {
 					display: flex;
 					align-items: center;
 					gap: var(--spacing-xsmall);
 					padding-inline: var(--spacing-small);
-					@apply text-lg font-semibold transition-colors duration-300 ease-in-out;
+					transition: color 300 ease-in-out;
 					text-wrap: nowrap;
+					font-weight: var(--font-weight-bold);
+					@apply text-lg;
 
 					&:hover {
 						background-color: var(--color-neutral-200);
 					}
 
+					&[data-active],
 					&:active {
-						background-color: var(--color-anthracite);
-						color: white;
-					}
-
-					&[data-active] {
 						background-color: var(--color-anthracite);
 						color: white;
 					}
@@ -66,12 +102,10 @@ nav.navbar {
 			}
 
 			& > button.toggle-btn {
-				margin-block: auto;
-				align-items: center;
 				justify-content: center;
+				margin-block: auto;
 				height: 2.4rem;
 				width: 2.4rem;
-				border-radius: var(--rounded-xsmall);
 
 				@media (min-width: $tablet) {
 					display: none;
@@ -88,6 +122,7 @@ nav.navbar {
 		padding-block: var(--spacing-small);
 		z-index: -10;
 		width: 100%;
+		@apply shadow-lg;
 
 		@media (min-width: $tablet) {
 			display: none;
@@ -109,36 +144,55 @@ nav.navbar {
 					background-color: var(--color-neutral-200);
 				}
 
-				&:active {
-					background-color: var(--color-anthracite);
-					color: white;
-				}
-
+				&:active,
 				&[data-active] {
 					background-color: var(--color-anthracite);
 					color: white;
 				}
 			}
+
+			& > button.nav-item {
+				width: 100%;
+			}
 		}
 	}
 }
 
-div.navbar__overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100vh;
-	width: 100vw;
-	background-color: rgba(0, 0, 0, 0.3);
-	z-index: 100;
-	pointer-events: none;
-	opacity: 0;
-	transition: ease-in-out opacity 0.3s;
+div.navbar__backdrop {
+	&[data-visible] {
+		opacity: 0;
+		pointer-events: none;
+	}
 
 	@media (max-width: $tablet) {
 		&[data-visible] {
 			opacity: 1;
 			pointer-events: auto;
+		}
+	}
+}
+
+div.user-nav-item__modal {
+	display: flex;
+	flex-direction: column;
+	padding-inline: 0 !important;
+	padding-block: var(--spacing-medium) !important;
+
+	& > .links {
+		display: flex;
+		flex-direction: column;
+		border-bottom: 1px solid var(--color-neutral-200);
+	}
+
+	.link {
+		padding-inline: var(--spacing-medium);
+		padding-block: var(--spacing-small);
+		text-align: left;
+		width: 100%;
+
+		&:hover,
+		&:active {
+			background-color: var(--color-neutral-200);
 		}
 	}
 }

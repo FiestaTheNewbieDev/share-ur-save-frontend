@@ -1,5 +1,7 @@
-import { RootContextProvider } from '@/app/context';
 import Navbar from '@/components/Navbar';
+import UserS2CGateway from '@/components/S2CGateway/UserS2CGateway';
+import StoreProvider from '@/components/StoreProvider';
+import WeglotInitializer from '@/components/WeglotInitializer';
 import '@/styles/global.scss';
 import { User } from '@/types/users';
 import { Metadata } from 'next';
@@ -28,15 +30,20 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body id="root" className={inter.className}>
-				<RootContextProvider userFromServer={user}>
+				<StoreProvider>
 					<Toaster
 						position="top-center"
 						closeButton={true}
 						richColors
 					/>
-					<Navbar />
+
 					<main>{children}</main>
-				</RootContextProvider>
+					<Navbar />
+
+					<UserS2CGateway user={user} />
+				</StoreProvider>
+
+				<WeglotInitializer />
 			</body>
 		</html>
 	);

@@ -1,0 +1,36 @@
+button.button,
+a.link-button {
+	display: flex;
+	gap: var(--spacing-xsmall);
+	padding-block: var(--spacing-xsmall);
+	padding-inline: var(--spacing-small);
+	border-radius: var(--rounded-xsmall);
+	width: fit-content;
+
+	align-items: center;
+	justify-content: center;
+
+	&[data-circular] {
+		border-radius: var(--rounded-circular);
+	}
+
+	&[data-full] {
+		width: 100%;
+	}
+
+	&[data-variant='primary'] {
+		padding: var(--spacing-xsmall);
+		background: var(--color-brand-red);
+		color: white;
+		border-radius: var(--rounded-xsmall);
+	}
+
+	&[data-variant='outline'] {
+		border: 1px solid var(--color-neutral-200);
+
+		&:hover,
+		&:active {
+			background-color: var(--color-neutral-200);
+		}
+	}
+}

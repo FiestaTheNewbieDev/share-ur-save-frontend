@@ -1,0 +1,17 @@
+div.backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: var(--color-backdrop);
+	z-index: 100;
+	pointer-events: none;
+	opacity: 0;
+	transition: ease-in-out opacity 0.3s;
+
+	&[data-visible] {
+		opacity: 1;
+		pointer-events: auto;
+	}
+}

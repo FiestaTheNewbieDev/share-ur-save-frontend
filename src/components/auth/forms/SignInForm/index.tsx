@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/button/Button';
 import TextInput from '@/components/input/TextInput';
 import useToast from '@/hooks/useToast';
 import SERVICES from '@/services';
@@ -60,11 +61,12 @@ export default function SignInForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className="sign-in-form">
-			<h1>Sign In</h1>
+			<h1 className="weglot-translate">Sign In</h1>
 
 			<div className="row">
-				<label>Username or Email</label>
+				<label className="weglot-translate">Username or Email</label>
 				<TextInput
+					className="weglot-translate"
 					id="login"
 					type="text"
 					placeholder="Username or Email"
@@ -75,8 +77,9 @@ export default function SignInForm() {
 			</div>
 
 			<div className="row">
-				<label>Password</label>
+				<label className="weglot-translate">Password</label>
 				<TextInput
+					className="weglot-translate"
 					id="password"
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Password"
@@ -86,14 +89,22 @@ export default function SignInForm() {
 					endIconOnClick={() => setShowPassword(!showPassword)}
 					full
 				/>
-				<Link href="/forgot-password" className="forgot-password-link">
+				<Link
+					href="/forgot-password"
+					className="forgot-password-link weglot-translate"
+				>
 					Forgot Password ?
 				</Link>
 			</div>
 
-			<button type="submit" className="submit-btn">
+			<Button
+				type="submit"
+				className="weglot-translate"
+				variant="primary"
+				full
+			>
 				Sign In
-			</button>
+			</Button>
 		</form>
 	);
 }

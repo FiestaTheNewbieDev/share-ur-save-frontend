@@ -1,13 +1,11 @@
 'use client';
 
-import TextInput from '@/components/input/TextInput';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
-import { useDebounce } from '@/hooks/useDebounce';
-import SERVICES from '@/services';
+import Popover from '@/components/Popover';
+import Searchbar from '@/components/searchbar/Searchbar';
+import Spinner from '@/components/Spinner';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GameSearchResult } from 'share-ur-save-common';
 import './style.scss';
 
@@ -16,78 +14,64 @@ interface IProps {
 }
 
 export default function QuickSearchbar(props: IProps) {
-	const router = useRouter();
-
-	const [query, setQuery] = useState('');
+	const [isOpen, setIsOpen] = useState(false);
 	const [results, setResults] = useState<GameSearchResult[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const debouncedQuery = useDebounce(query, 500);
-
-	useEffect(() => {
-		if (debouncedQuery) {
-			setIsLoading(true);
-			SERVICES.games
-				.fetchGames(debouncedQuery, 20)
-				.then((response) => {
-					setResults(response.data.games);
-				})
-				.catch((error) => {
-					console.error(error);
-				})
-				.finally(() => setIsLoading(false));
-		} else {
-			setResults([]);
-		}
-	}, [debouncedQuery]);
-
-	function handleChange(event: ChangeEvent<HTMLInputElement>) {
-		event.preventDefault();
-
-		setQuery(event.currentTarget.value.trim());
-	}
-
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
-		const params = new URLSearchParams();
-
-		if (query.length > 0) params.append('q', query);
-
-		router.push(`/games?${params.toString()}`);
 	}
 
 	return (
 		<form
+			className="quick-searchbar"
 			onSubmit={handleSubmit}
-			className="mini-searchbar"
 			{...(props.full && { 'data-full': true })}
 		>
-			<TextInput
-				placeholder="Search your favorite games..."
-				startIcon={faSearch}
-				type="search"
-				full
-				onChange={handleChange}
-			/>
-			{(isLoading || results.length > 0) && (
-				<div className="results">
-					{results.length > 0 &&
-						results.map((game) => (
-							<>
+			<Popover
+				className="quick-searchbar__popover__wrapper"
+				visible={isOpen && (isLoading || results.length > 0)}
+				onClose={() => setIsOpen(false)}
+				content={
+					<>
+						{!isLoading &&
+							results.length > 0 &&
+							results.map((game) => (
 								<Link
-									key={game.uuid}
 									className="results-item"
+									key={game.uuid}
 									href={`/game/${game.slug}`}
+									onClick={() => setIsOpen(false)}
 								>
-									{game.name}
+									<Image
+										src={
+											game.rawgData.background_image ||
+											'https://placehold.co/170x96.jpg'
+										}
+										alt=""
+										width={170}
+										height={96}
+									/>
+
+									<div className="desc">
+										<p className="title">{game.name}</p>
+										<p className="date">
+											{game.rawgData.released}
+										</p>
+									</div>
 								</Link>
-								<div className="separator" />
-							</>
-						))}
-					{isLoading && <p>Loading...</p>}
-				</div>
-			)}
+							))}
+						{isLoading && <Spinner />}
+					</>
+				}
+			>
+				<Searchbar
+					onFocus={() => setIsOpen(true)}
+					full={props.full}
+					setResults={setResults}
+					setLoading={setIsLoading}
+				/>
+			</Popover>
 		</form>
 	);
 }

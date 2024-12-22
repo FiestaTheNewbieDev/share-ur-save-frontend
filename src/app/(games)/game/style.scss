@@ -17,21 +17,4 @@ main {
 			filter: blur(5px);
 		}
 	}
-
-	&__container {
-		max-width: var(--laptop-s);
-		width: 100%;
-		margin-inline: auto;
-		margin-top: var(--spacing-large);
-		min-height: calc(100% - var(--spacing-large));
-		background-color: white;
-		border-top-left-radius: var(--rounded-large);
-		border-top-right-radius: var(--rounded-large);
-		padding: var(--spacing-large);
-
-		@apply shadow-lg;
-
-		& > div.header {
-		}
-	}
 }
