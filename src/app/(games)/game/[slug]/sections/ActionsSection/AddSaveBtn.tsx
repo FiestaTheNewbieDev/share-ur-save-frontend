@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/button/Button';
+import { Button } from '@/components/button';
 import AddSaveModal from '@/components/saves/AddSaveModal';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

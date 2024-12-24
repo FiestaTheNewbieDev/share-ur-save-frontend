@@ -3,7 +3,7 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Button from '@/components/button/Button';
+import { Button } from '@/components/button';
 import Modal from '@/components/Modal';
 import Searchbar from '@/components/searchbar/Searchbar';
 import { useState } from 'react';

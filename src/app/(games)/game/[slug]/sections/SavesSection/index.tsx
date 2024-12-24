@@ -1,101 +1,42 @@
 'use client';
 
-import LinkButton from '@/components/button/LinkButton';
+import { LinkButton } from '@/components/button';
 import Spinner from '@/components/Spinner';
 import Tabs from '@/components/Tabs';
+import SavesActions from '@/store/saves/actions';
+import useSaves from '@/store/saves/selector';
 import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import { AggregatedSave } from 'share-ur-save-common';
+import { useEffect, useState } from 'react';
+import { AggregatedSave, SavesTab } from 'share-ur-save-common';
 import './style.scss';
 
-export default function SavesSectionsRenderer() {
+type Props = Readonly<{ gameUuid: string }>;
+
+export default function SavesSectionsRenderer({ gameUuid }: Props) {
 	const searchParams = useSearchParams();
 	const tabParam = searchParams.get('tab');
 
-	const [section, setSection] = useState(tabParam || 'new-today');
+	const [tab, setTab] = useState<SavesTab>(
+		(tabParam as SavesTab) || 'new-today',
+	);
 
-	const saves: AggregatedSave[] = [
-		{
-			title: 'Save 1',
-			description: 'Save 1 description',
-			downloadUrl: 'https://example.com/save1.zip',
-			author: {
-				uuid: '1',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-		{
-			title: 'Save 2',
-			description: 'Save 2 description',
-			downloadUrl: 'https://example.com/save2.zip',
-			author: {
-				uuid: '2',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-		{
-			title: 'Save 2',
-			description: 'Save 2 description',
-			downloadUrl: 'https://example.com/save2.zip',
-			author: {
-				uuid: '2',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-		{
-			title: 'Save 2',
-			description: 'Save 2 description',
-			downloadUrl: 'https://example.com/save2.zip',
-			author: {
-				uuid: '2',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-		{
-			title: 'Save 2',
-			description: 'Save 2 description',
-			downloadUrl: 'https://example.com/save2.zip',
-			author: {
-				uuid: '2',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-		{
-			title: 'Save 2',
-			description: 'Save 2 description',
-			downloadUrl: 'https://example.com/save2.zip',
-			author: {
-				uuid: '2',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-		{
-			title: 'Save 2',
-			description: 'Save 2 description',
-			downloadUrl: 'https://example.com/save2.zip',
-			author: {
-				uuid: '2',
-				username: 'fiesta0412',
-				displayName: 'Fiesta0412',
-			},
-		} as AggregatedSave,
-	];
+	const saves: AggregatedSave[] = [];
+
+	useEffect(() => {
+		SavesActions.fetchSaves(gameUuid, { tab, size: 10, page: 1 });
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [tab]);
 
 	return (
 		<section className="game__saves-section">
 			<Tabs
 				className="game__saves-tabs weglot-translate"
-				selected={section}
-				onTab={setSection}
+				selected={tab}
+				onTab={setTab}
 				shallow
 			>
 				<Tabs.Item name="new-today" href="?tab=new-today">
@@ -112,35 +53,55 @@ export default function SavesSectionsRenderer() {
 				</Tabs.Item>
 			</Tabs>
 
-			<ul className="game__saves-list">
-				{saves.length <= 0 && (
-					<div className="loading-container">
-						<Spinner />
-					</div>
-				)}
-
-				{saves.length > 0 &&
-					saves.map((save, index) => (
-						<li key={index} className="item">
-							<Image
-								src={'https://placehold.co/128x64.jpg'}
-								alt=""
-								width={128}
-								height={64}
-							/>
-							<div className="info">
-								<p className="title">{save.title}</p>
-								<p className="desc">{save.description}</p>
-							</div>
-							<LinkButton href={save.downloadUrl} target="_blank">
-								<FontAwesomeIcon icon={faDownload} />
-								<span className="weglot-translate">
-									Download
-								</span>
-							</LinkButton>
-						</li>
-					))}
-			</ul>
+			<SavesRendering gameUuid={gameUuid} tab={tab} />
 		</section>
 	);
+}
+
+function SavesRendering({
+	gameUuid,
+	tab,
+}: {
+	gameUuid: string;
+	tab: SavesTab;
+}) {
+	const state = useSaves(gameUuid);
+
+	if (!state || !state[tab] || state[tab].status === 'FETCHING') {
+		return (
+			<div className="game__saves-loading-container">
+				<Spinner />
+			</div>
+		);
+	} else if (
+		state[tab].status === 'NOT_FETCHED' ||
+		(state[tab].status === 'FETCHED' && !state[tab].data.length)
+	) {
+		return <div className="game__saves-error-container">No Saves</div>;
+	} else if (state[tab].status === 'FETCHED') {
+		return (
+			<ul className="game__saves-list">
+				{state[tab].data.map((save, index) => (
+					<li key={index} className="item">
+						<Image
+							src={'https://placehold.co/128x64.jpg'}
+							alt=""
+							width={128}
+							height={64}
+						/>
+						<div className="info">
+							<p className="title">{save.title}</p>
+							<p className="desc">{save.description}</p>
+						</div>
+						<LinkButton href={save.downloadUrl} target="_blank">
+							<FontAwesomeIcon icon={faDownload} />
+							<span className="weglot-translate">Download</span>
+						</LinkButton>
+					</li>
+				))}
+			</ul>
+		);
+	}
+
+	return <div className="game__saves-error-container">Error</div>;
 }

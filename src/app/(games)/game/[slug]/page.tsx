@@ -45,7 +45,9 @@ export default async function Page(props: { params: { slug: string } }) {
 
 			<ActionsSection gameUuid={game.uuid} />
 
-			<SavesSection />
+			<SavesSection gameUuid={game.uuid} />
+
+			{/* <GameS2CGateway game={game} /> */}
 		</>
 	);
 }

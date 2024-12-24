@@ -1,9 +1,9 @@
 'use client';
 
-import TextInput from '@/components/input/TextInput';
-import { useDebounce } from '@/hooks/useDebounce';
 import SERVICES from '@/services';
+import TextInput from '@components/input/TextInput';
 import { faSearch, faX } from '@fortawesome/free-solid-svg-icons';
+import { useDebounce } from '@hooks/client/useDebounce';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { GameSearchResult } from 'share-ur-save-common';
 

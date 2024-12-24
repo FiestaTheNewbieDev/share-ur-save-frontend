@@ -1,14 +1,14 @@
 'use client';
 
-import Modal from '@/components/Modal';
-import Navbar from '@/components/Navbar';
-import Popover from '@/components/Popover';
-import useBreakpoint from '@/hooks/useBreakpoint';
-import BREAKPOINTS from '@/misc/breakpoints';
 import SERVICES from '@/services';
-import UserActions from '@/store/user/actions';
-import useUser from '@/store/user/selector';
 import { User } from '@/types/users';
+import Modal from '@components/Modal';
+import Navbar from '@components/Navbar';
+import Popover from '@components/Popover';
+import useBreakpoint from '@hooks/client/useBreakpoint';
+import BREAKPOINTS from '@misc/breakpoints';
+import UserActions from '@store/user/actions';
+import useUser from '@store/user/selector';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -96,9 +96,9 @@ function UserNavItem({ user }: { user: User }) {
 			<button
 				className="nav-item"
 				onClick={() => setIsOpen(true)}
-				{...(active && { 'data-active': true })}
+				{...((active || isOpen) && { 'data-active': true })}
 			>
-				{user!.displayName || user!.username}
+				<span>{user!.displayName || user!.username}</span>
 			</button>
 		</Popover>
 	);

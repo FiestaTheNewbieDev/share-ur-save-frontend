@@ -1,11 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import gameReducer from '@store/game/reducer';
+import gamesReducer from '@store/games/reducer';
+import savesReducer from '@store/saves/reducer';
 import uiReducer from '@store/ui/reducer';
 import userReducer from '@store/user/reducer';
 
 const reducer = combineReducers({
 	user: userReducer,
-	game: gameReducer,
+	games: gamesReducer,
+	saves: savesReducer,
 	ui: uiReducer,
 });
 

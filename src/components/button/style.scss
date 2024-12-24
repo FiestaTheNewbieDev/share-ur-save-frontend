@@ -1,5 +1,6 @@
 button.button,
 a.link-button {
+	position: relative;
 	display: flex;
 	gap: var(--spacing-xsmall);
 	padding-block: var(--spacing-xsmall);
@@ -31,6 +32,24 @@ a.link-button {
 		&:hover,
 		&:active {
 			background-color: var(--color-neutral-200);
+		}
+	}
+
+	&[data-locked] {
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.1);
+		}
+
+		&:not(:hover)::after {
+		}
+
+		&:hover::after {
 		}
 	}
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { toast } from 'sonner';
 
 type PromiseTResult<Data = any> =

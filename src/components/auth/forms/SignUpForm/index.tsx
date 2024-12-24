@@ -1,9 +1,9 @@
 'use client';
 
-import Button from '@/components/button/Button';
-import TextInput from '@/components/input/TextInput';
-import useToast from '@/hooks/useToast';
+import { Button } from '@/components/button';
 import SERVICES from '@/services';
+
+import TextInput from '@components/input/TextInput';
 import {
 	faEnvelope,
 	faEye,
@@ -11,6 +11,7 @@ import {
 	faLock,
 	faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import useToast from '@hooks/client/useToast';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 

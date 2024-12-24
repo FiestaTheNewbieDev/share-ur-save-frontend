@@ -2,17 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-import Backdrop from '@/components/Backdrop';
-import Button from '@/components/button/Button';
-import AuthNavItems from '@/components/Navbar/AuthNavItems';
-import MobileQuickSearchbar from '@/components/searchbar/MobileQuickSearchbar';
-import QuickSearchbar from '@/components/searchbar/QuickSearchbar';
-import useBreakpoint from '@/hooks/useBreakpoint';
-import BREAKPOINTS from '@/misc/breakpoints';
-import NAV_ITEMS from '@/misc/navItems';
-import BackdropActions from '@/store/ui/backdrop/actions';
-import NavbarActions from '@/store/ui/navbar/actions';
-import useNavbar from '@/store/ui/navbar/selector';
+import { Button } from '@/components/button';
+import Backdrop from '@components/Backdrop';
+
+import AuthNavItems from '@components/Navbar/AuthNavItems';
+import MobileQuickSearchbar from '@components/searchbar/MobileQuickSearchbar';
+import QuickSearchbar from '@components/searchbar/QuickSearchbar';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {
 	faBars,
@@ -21,6 +16,12 @@ import {
 	IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useBreakpoint from '@hooks/client/useBreakpoint';
+import BREAKPOINTS from '@misc/breakpoints';
+import NAV_ITEMS from '@misc/navItems';
+import BackdropActions from '@store/ui/backdrop/actions';
+import NavbarActions from '@store/ui/navbar/actions';
+import useNavbar from '@store/ui/navbar/selector';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import './style.scss';

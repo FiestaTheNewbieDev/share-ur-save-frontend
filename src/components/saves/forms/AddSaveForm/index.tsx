@@ -1,9 +1,9 @@
 'use client';
 
-import Button from '@/components/button/Button';
-import TextInput from '@/components/input/TextInput';
+import { Button } from '@/components/button';
 import SERVICES from '@/services';
-import useToast from '@hooks/useToast';
+import TextInput from '@components/input/TextInput';
+import useToast from '@hooks/client/useToast';
 import { AxiosError } from 'axios';
 import './style.scss';
 

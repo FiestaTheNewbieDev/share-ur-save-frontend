@@ -1,6 +1,6 @@
 import ContentContainer from '@/components/ContentContainer';
 
-export default function Page(props: { params: Promise<{ slug: string }> }) {
+export default function Page() {
 	return (
 		<ContentContainer>
 			<></>

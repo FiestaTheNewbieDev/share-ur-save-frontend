@@ -1,4 +1,4 @@
-import Button from '@/components/button/Button';
+import { Button } from '@/components/button';
 import Modal from '@/components/Modal';
 import AddSaveForm from '@/components/saves/forms/AddSaveForm';
 import { faX } from '@fortawesome/free-solid-svg-icons';

@@ -1,16 +1,19 @@
 import AddSaveBtn from '@/app/(games)/game/[slug]/sections/ActionsSection/AddSaveBtn';
+import getUserOnSSR from '@/hooks/server/getUserOnSSR';
 import './style.scss';
 
 interface IProps {
 	gameUuid: string;
 }
 
-export default function ActionsSection({ gameUuid }: IProps) {
+export default async function ActionsSection({ gameUuid }: IProps) {
+	const user = await getUserOnSSR();
+
 	return (
 		<section className="game__actions-section">
 			<div className="left"></div>
 			<div className="right">
-				<AddSaveBtn gameUuid={gameUuid} />
+				{user && <AddSaveBtn gameUuid={gameUuid} />}
 			</div>
 		</section>
 	);

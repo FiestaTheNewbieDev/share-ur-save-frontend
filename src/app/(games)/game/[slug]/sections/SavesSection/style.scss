@@ -1,16 +1,20 @@
 section.game__saves-section {
 	margin-inline: -2.4rem;
 
+	--min-container-height: 28rem;
+
+	& > div.game__saves-error-container,
+	& > div.game__saves-loading-container {
+		min-height: var(--min-container-height);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	& > ul.game__saves-list {
 		display: flex;
 		flex-direction: column;
-
-		& > div.loading-container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100%;
-		}
+		min-height: var(--min-container-height);
 
 		& > li.item {
 			display: grid;
