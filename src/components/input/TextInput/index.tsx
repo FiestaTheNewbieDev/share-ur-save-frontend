@@ -1,4 +1,5 @@
 import cn from '@/misc/classNames';
+import getTranslateClass from '@/misc/getTranslateClass';
 import { TranslationStatus } from '@/types/weglot';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,11 +26,7 @@ export default function TextInput({ translate, ...props }: Input) {
 	const classNames = cn(
 		'text-input',
 		props.className,
-		translate === 'translate'
-			? 'weglot-translate'
-			: translate === 'ignore'
-				? 'weglot-ignore'
-				: '',
+		getTranslateClass(translate),
 	);
 
 	if (props.textarea)

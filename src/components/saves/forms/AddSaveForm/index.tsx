@@ -1,19 +1,21 @@
 'use client';
 
 import { Button } from '@/components/button';
+import IMAGE_PARAMS from '@/misc/constants/imageParams';
 import SERVICES from '@/services';
 import TextInput from '@components/input/TextInput';
 import useToast from '@hooks/client/useToast';
 import { AxiosError } from 'axios';
+import { useState } from 'react';
 import './style.scss';
 
-interface IProps {
+export type AddSaveFormProps = {
 	gameUuid: string;
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	onLoading?: () => void;
 	onFinally?: () => void;
-}
+};
 
 export default function AddSaveForm({
 	gameUuid,
@@ -21,8 +23,34 @@ export default function AddSaveForm({
 	onError,
 	onLoading,
 	onFinally,
-}: IProps) {
+}: AddSaveFormProps) {
 	const toast = useToast();
+
+	const [canSubmit, setCanSubmit] = useState(false);
+
+	function handleThumbnailChange(event: React.ChangeEvent<HTMLInputElement>) {
+		event.preventDefault();
+
+		const thumbnail = event.currentTarget.files?.[0];
+
+		if (!thumbnail) return;
+
+		if (!IMAGE_PARAMS.acceptedFormats.includes(thumbnail.type)) {
+			toast.error('Image must be in PNG or JPEG format', {
+				translate: 'translate',
+			});
+			event.currentTarget.value = '';
+			return;
+		}
+
+		if (thumbnail.size > IMAGE_PARAMS.maxSize) {
+			toast.error('Image must be less than 1MB', {
+				translate: 'translate',
+			});
+			event.currentTarget.value = '';
+			return;
+		}
+	}
 
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -31,9 +59,11 @@ export default function AddSaveForm({
 
 		const data = {
 			title: form.title?.value,
-			desc: (form.elements.namedItem('desc') as HTMLTextAreaElement)
-				?.value,
+			description: (
+				form.elements.namedItem('desc') as HTMLTextAreaElement
+			)?.value,
 			downloadUrl: form['download-url']?.value,
+			thumbnail: form['thumbnail']?.files?.[0],
 		};
 
 		toast.promise(SERVICES.saves.addSave(gameUuid, data), {
@@ -103,14 +133,35 @@ export default function AddSaveForm({
 			</div>
 
 			<div className="row">
-				<label className="weglot-translate">Download URL</label>
-				<TextInput
-					className="weglot-translate"
-					id="download-url"
-					type="text"
-					placeholder="Download URL"
-					full
+				<label className="weglot-translate">Thumbnail</label>
+				<input
+					type="file"
+					id="thumbnail"
+					name="thumbnail"
+					accept={IMAGE_PARAMS.acceptedFormats.join(', ')}
+					onChange={handleThumbnailChange}
 				/>
+			</div>
+
+			<div className="row">
+				<label className="weglot-translate">Download URL</label>
+				<div className="download-url-input">
+					<TextInput
+						className="weglot-translate"
+						id="download-url"
+						type="text"
+						placeholder="Download URL"
+						full
+					/>
+					<div className="img-wrapper">
+						{/* <Image
+							src="/logo/logo_drive_2020q4_color_2x_web_64dp.png"
+							alt=""
+							width={64}
+							height={64}
+						/> */}
+					</div>
+				</div>
 			</div>
 
 			<Button

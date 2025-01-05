@@ -1,0 +1,25 @@
+nav.breadcrumb {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xsmall);
+
+	& > a {
+		&:active,
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:last-child {
+			text-decoration: underline;
+		}
+	}
+
+	& > .chevron {
+		width: 0.8rem;
+		height: 0.8rem;
+
+		&:first-child {
+			display: none;
+		}
+	}
+}

@@ -1,3 +1,4 @@
+import settingsReducer from '@/store/settings/reducer';
 import { combineReducers } from '@reduxjs/toolkit';
 import gamesReducer from '@store/games/reducer';
 import savesReducer from '@store/saves/reducer';
@@ -9,6 +10,7 @@ const reducer = combineReducers({
 	games: gamesReducer,
 	saves: savesReducer,
 	ui: uiReducer,
+	settings: settingsReducer,
 });
 
 export default reducer;

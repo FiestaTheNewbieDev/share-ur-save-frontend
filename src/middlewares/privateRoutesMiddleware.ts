@@ -2,12 +2,12 @@ import match from '@/misc/match';
 import { User } from '@/types/users';
 import { NextRequest, NextResponse } from 'next/server';
 
-const ROUTES = [/^\/profile.*/];
+const ROUTES = [/^\/settings.*/];
 
 export default function privateRoutesMiddleware(
 	request: NextRequest,
 	response: NextResponse,
-	user: User,
+	user: User | null,
 ) {
 	if (user) return response;
 

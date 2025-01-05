@@ -1,5 +1,8 @@
 'use client';
 
+import cn from '@/misc/classNames';
+import getTranslateClass from '@/misc/getTranslateClass';
+import { TranslationStatus } from '@/types/weglot';
 import { toast } from 'sonner';
 
 type PromiseTResult<Data = any> =
@@ -16,18 +19,35 @@ type PromiseData<T = any> = {
 	finally?: () => void | Promise<void>;
 };
 
+type Params = { className?: string; translate?: TranslationStatus };
+
 type titleT = (() => React.ReactNode) | React.ReactNode;
 const useToast = () => {
-	const success = (message: titleT | React.ReactNode) =>
-		toast.success(message);
-	const info = (message: titleT | React.ReactNode) => toast.info(message);
-	const warning = (message: titleT | React.ReactNode) =>
-		toast.warning(message);
-	const error = (message: titleT | React.ReactNode) => toast.error(message);
-	const message = (message: titleT | React.ReactNode) =>
-		toast.message(message);
-	const loading = (message: titleT | React.ReactNode) =>
-		toast.loading(message);
+	const showToast = (
+		type: 'success' | 'info' | 'warning' | 'error' | 'message' | 'loading',
+		message: titleT | React.ReactNode,
+		params?: Params,
+	) => {
+		const classNames = cn(
+			getTranslateClass(params?.translate),
+			params?.className,
+		);
+
+		return toast[type](message, { className: classNames });
+	};
+
+	const success = (message: titleT | React.ReactNode, params?: Params) =>
+		showToast('success', message, params);
+	const info = (message: titleT | React.ReactNode, params?: Params) =>
+		showToast('info', message, params);
+	const warning = (message: titleT | React.ReactNode, params?: Params) =>
+		showToast('warning', message, params);
+	const error = (message: titleT | React.ReactNode, params?: Params) =>
+		showToast('error', message, params);
+	const message = (message: titleT | React.ReactNode, params?: Params) =>
+		showToast('message', message, params);
+	const loading = (message: titleT | React.ReactNode, params?: Params) =>
+		showToast('loading', message, params);
 
 	const promise = <T = unknown>(
 		promise: Promise<T>,

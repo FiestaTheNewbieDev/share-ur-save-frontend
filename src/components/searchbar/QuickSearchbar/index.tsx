@@ -1,10 +1,9 @@
 'use client';
 
 import Popover from '@/components/Popover';
+import ResultsCard from '@/components/searchbar/ResultsCard';
 import Searchbar from '@/components/searchbar/Searchbar';
 import Spinner from '@/components/Spinner';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { GameSearchResult } from 'share-ur-save-common';
 import './style.scss';
@@ -37,29 +36,11 @@ export default function QuickSearchbar(props: IProps) {
 						{!isLoading &&
 							results.length > 0 &&
 							results.map((game) => (
-								<Link
-									className="results-item"
+								<ResultsCard
 									key={game.uuid}
-									href={`/game/${game.slug}`}
+									game={game}
 									onClick={() => setIsOpen(false)}
-								>
-									<Image
-										src={
-											game.rawgData.background_image ||
-											'https://placehold.co/170x96.jpg'
-										}
-										alt=""
-										width={170}
-										height={96}
-									/>
-
-									<div className="desc">
-										<p className="title">{game.name}</p>
-										<p className="date">
-											{game.rawgData.released}
-										</p>
-									</div>
-								</Link>
+								/>
 							))}
 						{isLoading && <Spinner />}
 					</>

@@ -1,0 +1,49 @@
+aside.settings__sidebar {
+	background-color: var(--color-anthracite);
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	height: 100%;
+	color: white;
+	padding: var(--spacing-medium);
+	gap: var(--spacing-large);
+	border-right: 3px solid var(--color-brand-red);
+
+	& > h1 {
+		font-size: var(--font-size-medium);
+		font-weight: var(--font-weight-normal);
+		text-align: center;
+	}
+
+	& > ul {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-small);
+
+		& > li {
+			padding: 0;
+
+			& > a {
+				display: flex;
+				justify-content: space-between;
+				gap: var(--spacing-small);
+				align-items: center;
+
+				&:hover {
+					text-decoration: underline;
+				}
+
+				& > div:first-child {
+					display: flex;
+					gap: var(--spacing-xsmall);
+					align-items: center;
+				}
+
+				i {
+					width: 0.8rem;
+					height: 0.8rem;
+				}
+			}
+		}
+	}
+}

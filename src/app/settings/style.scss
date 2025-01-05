@@ -1,0 +1,33 @@
+div.content-container.settings__container {
+	border-top-left-radius: 0;
+	display: grid;
+	padding: 0;
+	grid-template-columns: auto 1fr;
+	gap: 0;
+
+	& > aside.settings_sidebar {
+		margin-bottom: var(--spacing-large);
+	}
+
+	& > div.settings__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-large);
+		border-top-right-radius: var(--spacing-large);
+		padding: var(--spacing-large);
+
+		& > header {
+			background-color: var(--color-anthracite);
+			margin-top: -2.4rem;
+			margin-inline: -2.4rem;
+			padding: var(--spacing-medium);
+			border-bottom: 3px solid var(--color-brand-red);
+			color: white;
+
+			& > h2 {
+				font-size: var(--font-size-xlarge);
+				font-weight: var(--font-weight-bold);
+			}
+		}
+	}
+}

@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import UserS2CGateway from '@/components/S2CGateway/UserS2CGateway';
 import StoreProvider from '@/components/StoreProvider';
 import WeglotInitializer from '@/components/WeglotInitializer';
+import cn from '@/misc/classNames';
 import '@/styles/global.scss';
 import { User } from '@/types/users';
 import { Metadata } from 'next';
@@ -20,7 +21,9 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	let user: User = null;
+	const classNames = cn(inter.className);
+
+	let user: User | null = null;
 	const userHeader = (await headers()).get('X-User-Info');
 
 	if (userHeader) {
@@ -29,7 +32,7 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en">
-			<body id="root" className={inter.className}>
+			<body id="root" className={classNames}>
 				<StoreProvider>
 					<Toaster
 						position="top-center"

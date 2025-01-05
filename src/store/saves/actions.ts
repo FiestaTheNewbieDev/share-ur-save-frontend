@@ -7,7 +7,11 @@ export default class SavesActions {
 	static async fetchSaves(
 		gameUuid: string,
 		params: { tab: SavesTab; size: number; page: number },
-	) {
+	): Promise<{ totalCount: number; totalPages: number }> {
+		const state = store.getState().saves[gameUuid]?.[params.tab];
+
+		if (state?.status === 'FETCHING') return Promise.reject();
+
 		store.dispatch(
 			savesSliceActions.startFetchingSaves({ gameUuid, tab: params.tab }),
 		);
@@ -24,6 +28,22 @@ export default class SavesActions {
 					saves: response.data.saves,
 				}),
 			);
-		} catch (error) {}
+
+			return {
+				totalCount: response.data.totalCount,
+				totalPages: response.data.totalPages,
+			};
+		} catch (error) {
+			store.dispatch(
+				savesSliceActions.fetchSavesError({
+					gameUuid,
+					tab: params.tab,
+					error: {
+						code: 500,
+					},
+				}),
+			);
+			return { totalCount: 0, totalPages: 0 };
+		}
 	}
 }

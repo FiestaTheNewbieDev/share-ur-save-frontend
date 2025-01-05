@@ -5,7 +5,7 @@ import { User } from '@/types/users';
 import { useEffect } from 'react';
 
 interface IProps {
-	user: User;
+	user: User | null;
 }
 
 export default function UserS2CGateway({ user }: IProps) {

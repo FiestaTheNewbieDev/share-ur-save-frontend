@@ -2,12 +2,6 @@
 
 div.game__container {
 	& > header {
-		background-color: var(--color-anthracite);
-		margin-top: -2.4rem;
-		margin-inline: -2.4rem;
-
-		padding: var(--spacing-medium);
-		border-bottom: 3px solid var(--color-brand-red);
 		display: grid;
 		grid-template-columns: 33% 1fr;
 		gap: var(--spacing-medium);

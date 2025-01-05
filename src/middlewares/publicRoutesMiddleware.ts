@@ -7,7 +7,7 @@ const ROUTES = ['/sign-in', '/sign-up'];
 export default function publicRoutesMiddleware(
 	request: NextRequest,
 	response: NextResponse,
-	user: User,
+	user: User | null,
 ) {
 	if (!user) return response;
 

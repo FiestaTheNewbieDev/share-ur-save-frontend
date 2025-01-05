@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/button';
+import Form from '@/components/Form';
 import SERVICES from '@/services';
 
 import TextInput from '@components/input/TextInput';
@@ -70,7 +71,7 @@ export default function SignUpForm() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="sign-up-form">
+		<Form onSubmit={handleSubmit} className="sign-up-form">
 			<h1 className="weglot-translate">Sign Up</h1>
 
 			<div className="row">
@@ -140,6 +141,6 @@ export default function SignUpForm() {
 			>
 				Sign Up
 			</Button>
-		</form>
+		</Form>
 	);
 }

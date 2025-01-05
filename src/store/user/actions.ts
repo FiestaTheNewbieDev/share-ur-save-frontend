@@ -1,12 +1,14 @@
+import SERVICES from '@/services';
 import store from '@/store/store';
 import { userSliceActions } from '@/store/user/reducer';
 import { User } from '@/types/users';
 
 export default class UserActions {
-	static async setUser(user: User) {
+	static setUser(user: User | null) {
 		store.dispatch(userSliceActions.setUser({ user }));
 	}
-	static async clearUser() {
+	static async logout() {
+		const response = await SERVICES.auth.signOut();
 		store.dispatch(userSliceActions.clearUser());
 	}
 }

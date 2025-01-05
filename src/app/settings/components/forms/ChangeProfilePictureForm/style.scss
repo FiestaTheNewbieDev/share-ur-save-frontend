@@ -1,0 +1,14 @@
+form.change-profile-picture-form {
+	div.input-group {
+		img {
+			border-radius: var(--rounded-circular);
+			height: 128px;
+			width: 128px;
+			object-fit: cover;
+		}
+
+		display: flex;
+		gap: var(--spacing-medium);
+		align-items: center;
+	}
+}

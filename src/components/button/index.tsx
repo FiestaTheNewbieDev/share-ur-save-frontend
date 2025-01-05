@@ -6,7 +6,7 @@ import './style.scss';
 type ExtraProps = {
 	full?: boolean;
 	circular?: boolean;
-	variant?: 'outline' | 'transparent';
+	variant?: 'primary' | 'outline' | 'transparent';
 };
 
 type LinkButton = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {

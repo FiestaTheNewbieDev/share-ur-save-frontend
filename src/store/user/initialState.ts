@@ -1,10 +1,10 @@
 import { User } from '@/types/users';
 
 export type UserState = {
-	user: User;
+	user: User | null;
 };
 
-const initialState = {
+const initialState: UserState = {
 	user: null,
 };
 

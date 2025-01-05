@@ -28,36 +28,6 @@ div.auth-layout {
 			justify-content: center;
 			padding: var(--spacing-large);
 			background-color: white;
-
-			& > [class$='-form'] {
-				display: flex;
-				flex-direction: column;
-				width: 100%;
-				gap: var(--spacing-small);
-
-				& > h1 {
-					text-align: center;
-					font-weight: var(--font-weight-bold);
-					font-size: var(--font-size-xlarge);
-				}
-
-				& > div.row {
-					display: flex;
-					flex-direction: column;
-					gap: var(--spacing-xsmall);
-
-					& > label {
-						font-size: var(--font-size-small);
-					}
-				}
-
-				& > button.submit-btn {
-					padding: var(--spacing-xsmall);
-					background: var(--color-brand-red);
-					color: white;
-					border-radius: var(--rounded-xsmall);
-				}
-			}
 		}
 
 		& > div.right-content {

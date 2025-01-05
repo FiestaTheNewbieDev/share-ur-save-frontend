@@ -17,8 +17,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useBreakpoint from '@hooks/client/useBreakpoint';
-import BREAKPOINTS from '@misc/breakpoints';
-import NAV_ITEMS from '@misc/navItems';
+import BREAKPOINTS from '@misc/constants/breakpoints';
+import NAV_ITEMS from '@misc/constants/navItems';
 import BackdropActions from '@store/ui/backdrop/actions';
 import NavbarActions from '@store/ui/navbar/actions';
 import useNavbar from '@store/ui/navbar/selector';

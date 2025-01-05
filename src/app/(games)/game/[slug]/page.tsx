@@ -1,14 +1,20 @@
+import GamePageCtxProvider from '@/app/(games)/game/[slug]/context';
 import ActionsSection from '@/app/(games)/game/[slug]/sections/ActionsSection';
 import SavesSection from '@/app/(games)/game/[slug]/sections/SavesSection';
 import SERVICES from '@/services';
 import axios from 'axios';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { CombinedGame } from 'share-ur-save-common';
+import { CombinedGame, SavesTab } from 'share-ur-save-common';
 import './style.scss';
 
-export default async function Page(props: { params: { slug: string } }) {
-	const params = props.params;
+export default async function Page({
+	params,
+	searchParams,
+}: {
+	params: { slug: string };
+	searchParams?: { tab?: SavesTab; page?: string; size?: string };
+}) {
 	let game: CombinedGame | null = null;
 
 	try {
@@ -43,9 +49,16 @@ export default async function Page(props: { params: { slug: string } }) {
 				</div>
 			</header>
 
-			<ActionsSection gameUuid={game.uuid} />
+			<GamePageCtxProvider
+				gameUuid={game.uuid}
+				tab={searchParams?.tab || 'new-today'}
+				page={searchParams?.page ? parseInt(searchParams?.page) : 1}
+				size={searchParams?.size ? parseInt(searchParams?.size) : 10}
+			>
+				<ActionsSection gameUuid={game.uuid} />
 
-			<SavesSection gameUuid={game.uuid} />
+				<SavesSection />
+			</GamePageCtxProvider>
 
 			{/* <GameS2CGateway game={game} /> */}
 		</>

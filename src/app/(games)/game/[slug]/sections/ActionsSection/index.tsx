@@ -12,9 +12,7 @@ export default async function ActionsSection({ gameUuid }: IProps) {
 	return (
 		<section className="game__actions-section">
 			<div className="left"></div>
-			<div className="right">
-				{user && <AddSaveBtn gameUuid={gameUuid} />}
-			</div>
+			<div className="right">{user && <AddSaveBtn />}</div>
 		</section>
 	);
 }

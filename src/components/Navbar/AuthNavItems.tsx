@@ -1,17 +1,35 @@
 'use client';
 
-import SERVICES from '@/services';
+import getDisplayName from '@/misc/user/getDisplayName';
 import { User } from '@/types/users';
 import Modal from '@components/Modal';
 import Navbar from '@components/Navbar';
 import Popover from '@components/Popover';
 import useBreakpoint from '@hooks/client/useBreakpoint';
-import BREAKPOINTS from '@misc/breakpoints';
+import BREAKPOINTS from '@misc/constants//breakpoints';
 import UserActions from '@store/user/actions';
 import useUser from '@store/user/selector';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+function Links({ onLogout }: { onLogout: () => void }) {
+	return (
+		<>
+			<div className="links">
+				<Link
+					className="link weglot-translate"
+					href="/settings/personal"
+				>
+					Settings
+				</Link>
+			</div>
+			<button className="link weglot-translate" onClick={onLogout}>
+				Logout
+			</button>
+		</>
+	);
+}
 
 function UserNavItem({ user }: { user: User }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -23,9 +41,8 @@ function UserNavItem({ user }: { user: User }) {
 	const urls = ['/account'];
 
 	function handleLogout() {
-		SERVICES.auth.signOut().then(() => {
-			UserActions.clearUser();
-			router.replace('/sign-in');
+		UserActions.logout().finally(() => {
+			router.refresh();
 		});
 	}
 
@@ -49,7 +66,7 @@ function UserNavItem({ user }: { user: User }) {
 					onClick={() => setIsOpen(true)}
 					{...(active && { 'data-active': true })}
 				>
-					{user!.displayName || user!.username}
+					<span>{getDisplayName(user)}</span>
 				</button>
 				<Modal
 					id="user-nav-item"
@@ -57,17 +74,7 @@ function UserNavItem({ user }: { user: User }) {
 					visible={isOpen}
 					onClose={() => setIsOpen(false)}
 				>
-					<div className="links">
-						<Link className="link weglot-translate" href="/account">
-							Account
-						</Link>
-					</div>
-					<button
-						className="link weglot-translate"
-						onClick={handleLogout}
-					>
-						Logout
-					</button>
+					<Links onLogout={handleLogout} />
 				</Modal>
 			</>
 		);
@@ -77,28 +84,14 @@ function UserNavItem({ user }: { user: User }) {
 			className="user-nav-item__popover__wrapper"
 			visible={isOpen}
 			onClose={() => setIsOpen(false)}
-			content={
-				<>
-					<div className="links">
-						<Link className="link weglot-translate" href="/account">
-							Account
-						</Link>
-					</div>
-					<button
-						className="link weglot-translate"
-						onClick={handleLogout}
-					>
-						Logout
-					</button>
-				</>
-			}
+			content={<Links onLogout={handleLogout} />}
 		>
 			<button
 				className="nav-item"
 				onClick={() => setIsOpen(true)}
 				{...((active || isOpen) && { 'data-active': true })}
 			>
-				<span>{user!.displayName || user!.username}</span>
+				{getDisplayName(user)}
 			</button>
 		</Popover>
 	);

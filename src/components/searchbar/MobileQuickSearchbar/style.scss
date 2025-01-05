@@ -15,3 +15,29 @@ button.mobile-quick-searchbar {
 		}
 	}
 }
+
+div.quick-search__modal {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-small);
+
+	--max-height: 50vh;
+
+	& > div.results-loading-container {
+		padding: var(--spacing-xlarge);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		max-height: var(--max-height);
+		height: 100%;
+	}
+
+	& > div.results-container {
+		max-height: var(--max-height);
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		margin-inline: -1.6rem;
+		border-top: 1px solid var(--color-neutral-200);
+	}
+}

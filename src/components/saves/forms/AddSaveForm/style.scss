@@ -11,5 +11,26 @@ form.add-save__form {
 		& > label {
 			font-size: var(--font-size-small);
 		}
+
+		& > div.download-url-input {
+			display: flex;
+			gap: var(--spacing-small);
+			align-items: center;
+
+			& > .text-input {
+				flex: 1;
+			}
+
+			& > div.img-wrapper {
+				height: 2.4rem;
+				width: 2.4rem;
+
+				& > img {
+					height: 100%;
+					width: 100%;
+					object-fit: cover;
+				}
+			}
+		}
 	}
 }

@@ -1,42 +1,63 @@
 'use client';
 
-import { LinkButton } from '@/components/button';
+import SaveCard from '@/app/(games)/game/[slug]/components/SaveCard';
+import { useGamePageCtx } from '@/app/(games)/game/[slug]/context';
+import Paginator from '@/components/Paginator';
 import Spinner from '@/components/Spinner';
 import Tabs from '@/components/Tabs';
 import SavesActions from '@/store/saves/actions';
 import useSaves from '@/store/saves/selector';
-import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { AggregatedSave, SavesTab } from 'share-ur-save-common';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import './style.scss';
 
-type Props = Readonly<{ gameUuid: string }>;
+export default function SavesSectionsRenderer() {
+	const context = useGamePageCtx();
 
-export default function SavesSectionsRenderer({ gameUuid }: Props) {
-	const searchParams = useSearchParams();
-	const tabParam = searchParams.get('tab');
+	const router = useRouter();
 
-	const [tab, setTab] = useState<SavesTab>(
-		(tabParam as SavesTab) || 'new-today',
-	);
+	function handlePageChange(page: number) {
+		context.pagination.setPage(page);
 
-	const saves: AggregatedSave[] = [];
+		const params = new URLSearchParams();
+		params.append('tab', context.tab);
+		params.append('page', page.toString());
+		params.append('size', context.pagination.size.toString());
+
+		router.push(`?${params.toString()}`, undefined, { shallow: true });
+	}
+
+	function handlePageSizeChange(size: number) {
+		context.pagination.setPage(1);
+		context.pagination.setSize(size);
+
+		const params = new URLSearchParams();
+		params.append('tab', context.tab);
+		params.append('page', '1');
+		params.append('size', size.toString());
+
+		router.push(`?${params.toString()}`, undefined, { shallow: true });
+	}
 
 	useEffect(() => {
-		SavesActions.fetchSaves(gameUuid, { tab, size: 10, page: 1 });
+		SavesActions.fetchSaves(context.gameUuid, {
+			tab: context.tab,
+			size: context.pagination.size,
+			page: context.pagination.page,
+		}).then(({ totalCount, totalPages }) => {
+			context.pagination.setTotalCount(totalCount);
+			context.pagination.setTotalPages(totalPages);
+		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [tab]);
+	}, [context.tab, context.pagination.size, context.pagination.page]);
 
 	return (
 		<section className="game__saves-section">
 			<Tabs
 				className="game__saves-tabs weglot-translate"
-				selected={tab}
-				onTab={setTab}
+				selected={context.tab}
+				onTab={context.setTab}
 				shallow
 			>
 				<Tabs.Item name="new-today" href="?tab=new-today">
@@ -53,18 +74,23 @@ export default function SavesSectionsRenderer({ gameUuid }: Props) {
 				</Tabs.Item>
 			</Tabs>
 
-			<SavesRendering gameUuid={gameUuid} tab={tab} />
+			<SavesRendering />
+
+			<Paginator
+				className="game__saves-paginator"
+				currentPage={context.pagination.page}
+				pageSize={context.pagination.size}
+				totalCount={context.pagination.totalCount}
+				totalPages={context.pagination.totalPages}
+				onPageChange={handlePageChange}
+				onSizeChange={handlePageSizeChange}
+			/>
 		</section>
 	);
 }
 
-function SavesRendering({
-	gameUuid,
-	tab,
-}: {
-	gameUuid: string;
-	tab: SavesTab;
-}) {
+function SavesRendering() {
+	const { gameUuid, tab } = useGamePageCtx();
 	const state = useSaves(gameUuid);
 
 	if (!state || !state[tab] || state[tab].status === 'FETCHING') {
@@ -82,22 +108,7 @@ function SavesRendering({
 		return (
 			<ul className="game__saves-list">
 				{state[tab].data.map((save, index) => (
-					<li key={index} className="item">
-						<Image
-							src={'https://placehold.co/128x64.jpg'}
-							alt=""
-							width={128}
-							height={64}
-						/>
-						<div className="info">
-							<p className="title">{save.title}</p>
-							<p className="desc">{save.description}</p>
-						</div>
-						<LinkButton href={save.downloadUrl} target="_blank">
-							<FontAwesomeIcon icon={faDownload} />
-							<span className="weglot-translate">Download</span>
-						</LinkButton>
-					</li>
+					<SaveCard key={index} save={save} />
 				))}
 			</ul>
 		);

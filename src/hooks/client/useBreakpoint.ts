@@ -1,6 +1,6 @@
 'use client';
 
-import BREAKPOINTS from '@/misc/breakpoints';
+import BREAKPOINTS from '@/misc/constants/breakpoints';
 import { useEffect, useState } from 'react';
 
 export default function useBreakpoint() {

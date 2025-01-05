@@ -1,7 +1,7 @@
 import { FetchError } from '@/store/generic/initialState';
 import initialState, { SavesState } from '@/store/saves/initialState';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Save, SavesTab } from 'share-ur-save-common';
+import { AggregatedSave, SavesTab } from 'share-ur-save-common';
 
 export const savesSlice = createSlice({
 	name: 'saves',
@@ -40,7 +40,7 @@ export const savesSlice = createSlice({
 			action: PayloadAction<{
 				gameUuid: string;
 				tab: SavesTab;
-				saves: Save[];
+				saves: AggregatedSave[];
 			}>,
 		) => {
 			const uuid = action.payload.gameUuid;

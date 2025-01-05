@@ -144,3 +144,4 @@ function TabItem({
 }
 
 Tabs.Item = TabItem;
+Tabs.Item.displayName = 'Tabs.Item';

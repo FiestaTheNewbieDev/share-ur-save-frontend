@@ -1,7 +1,7 @@
 import { GenericState } from '@/store/generic/initialState';
-import { Save, SavesTab } from 'share-ur-save-common';
+import { AggregatedSave, SavesTab } from 'share-ur-save-common';
 
-export type GameSavesState = Record<SavesTab, GenericState<Save[]>>;
+export type GameSavesState = Record<SavesTab, GenericState<AggregatedSave[]>>;
 
 export type SavesState = Record<string, GameSavesState>;
 

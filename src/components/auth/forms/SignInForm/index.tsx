@@ -3,6 +3,7 @@
 import { Button } from '@/components/button';
 import SERVICES from '@/services';
 
+import Form from '@/components/Form';
 import TextInput from '@components/input/TextInput';
 import {
 	faEye,
@@ -61,7 +62,7 @@ export default function SignInForm() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="sign-in-form">
+		<Form onSubmit={handleSubmit} className="sign-in-form">
 			<h1 className="weglot-translate">Sign In</h1>
 
 			<div className="row">
@@ -106,6 +107,6 @@ export default function SignInForm() {
 			>
 				Sign In
 			</Button>
-		</form>
+		</Form>
 	);
 }
