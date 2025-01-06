@@ -10,7 +10,7 @@ type GamesService = {
 export async function fetchGame(
 	id: string,
 ): Promise<ApiResponse<{ game: CombinedGame }>> {
-	return requester(false).get<{ game: CombinedGame }>(`/game/${id}`);
+	return requester(true).get<{ game: CombinedGame }>(`/game/${id}`);
 }
 
 export async function fetchGames(
@@ -28,7 +28,7 @@ export async function fetchGames(
 	}
 
 	// @ts-ignore
-	return requester(false).get<{ games: GameSearchResult[] }>(
+	return requester(true).get<{ games: GameSearchResult[] }>(
 		`/games?${urlParams.toString()}`,
 	);
 }

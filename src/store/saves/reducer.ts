@@ -52,6 +52,26 @@ export const savesSlice = createSlice({
 			if (state[uuid][tab].status === 'FETCHED')
 				state[uuid][tab].data = action.payload.saves;
 		},
+		setSave: (
+			state: SavesState,
+			action: PayloadAction<{
+				gameUuid: string;
+				tab: SavesTab;
+				save: AggregatedSave;
+			}>,
+		) => {
+			const uuid = action.payload.gameUuid;
+			const tab = action.payload.tab;
+			const newSave = action.payload.save;
+
+			state[uuid] = state[uuid] || {};
+			state[uuid][tab] = state[uuid][tab] || {};
+			state[uuid][tab].status = 'FETCHED';
+			if (state[uuid][tab].status === 'FETCHED')
+				state[uuid][tab].data = state[uuid][tab].data.map((save) =>
+					save.uuid === newSave.uuid ? newSave : save,
+				);
+		},
 	},
 });
 

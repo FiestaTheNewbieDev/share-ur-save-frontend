@@ -46,4 +46,36 @@ export default class SavesActions {
 			return { totalCount: 0, totalPages: 0 };
 		}
 	}
+
+	static async upvote(saveUuid: string, tab: SavesTab) {
+		try {
+			const response = await SERVICES.saves.upvoteSave(saveUuid);
+
+			const save = response.data.save;
+
+			store.dispatch(
+				savesSliceActions.setSave({
+					gameUuid: save.gameUuid,
+					save,
+					tab,
+				}),
+			);
+		} catch (error) {}
+	}
+
+	static async downvote(saveUuid: string, tab: SavesTab) {
+		try {
+			const response = await SERVICES.saves.downvoteSave(saveUuid);
+
+			const save = response.data.save;
+
+			store.dispatch(
+				savesSliceActions.setSave({
+					gameUuid: save.gameUuid,
+					save,
+					tab,
+				}),
+			);
+		} catch (error) {}
+	}
 }

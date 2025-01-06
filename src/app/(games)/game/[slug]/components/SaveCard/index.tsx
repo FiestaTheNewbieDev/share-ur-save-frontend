@@ -4,20 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import { AggregatedSave } from 'share-ur-save-common';
 
+import { useGamePageCtx } from '@/app/(games)/game/[slug]/context';
 import getPlaceholderUrl from '@/misc/getPlaceholderUrl';
 import getDisplayName from '@/misc/user/getDisplayName';
-import SERVICES from '@/services';
+import SavesActions from '@/store/saves/actions';
 import { User } from '@/types/users';
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 import './style.scss';
 
 export default function SaveCard({ save }: { save: AggregatedSave }) {
+	const { tab } = useGamePageCtx();
+
 	function upvote() {
-		SERVICES.saves.upvoteSave(save.uuid);
+		SavesActions.upvote(save.uuid, tab);
 	}
 
 	function downvote() {
-		SERVICES.saves.downvoteSave(save.uuid);
+		SavesActions.downvote(save.uuid, tab);
 	}
 
 	return (
@@ -48,23 +51,6 @@ export default function SaveCard({ save }: { save: AggregatedSave }) {
 						{new Date(save.updatedAt).toLocaleDateString()}
 					</span>
 				</p>
-				{/* <span className="desc">{save.description}</span> */}
-
-				<div className="actions">
-					{/* <div className="action-pin">
-						<FontAwesomeIcon
-							className="upvote-btn"
-							onClick={upvote}
-							icon={faThumbsUp}
-						/>
-						<span>0</span>
-						<FontAwesomeIcon
-							className="downvote-btn"
-							onClick={downvote}
-							icon={faThumbsDown}
-						/>
-					</div> */}
-				</div>
 			</div>
 			<div className="actions">
 				<div className="upvote-actions">
@@ -79,7 +65,14 @@ export default function SaveCard({ save }: { save: AggregatedSave }) {
 						<ArrowBigUp />
 					</Button>
 					<Button>{save.score}</Button>
-					<Button onClick={downvote}>
+					<Button
+						onClick={downvote}
+						variant={
+							save.customerVote?.type === 'DOWN'
+								? 'primary'
+								: 'outline'
+						}
+					>
 						<ArrowBigDown />
 					</Button>
 				</div>

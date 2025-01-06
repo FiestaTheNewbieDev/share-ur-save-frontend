@@ -8,7 +8,7 @@ export default class UserActions {
 		store.dispatch(userSliceActions.setUser({ user }));
 	}
 	static async logout() {
-		const response = await SERVICES.auth.signOut();
+		await SERVICES.auth.signOut();
 		store.dispatch(userSliceActions.clearUser());
 	}
 }

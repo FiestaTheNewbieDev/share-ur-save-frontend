@@ -42,7 +42,7 @@ function UserNavItem({ user }: { user: User }) {
 
 	function handleLogout() {
 		UserActions.logout().finally(() => {
-			router.refresh();
+			router.replace('/sign-in');
 		});
 	}
 

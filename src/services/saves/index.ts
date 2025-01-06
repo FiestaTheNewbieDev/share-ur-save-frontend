@@ -1,6 +1,6 @@
 import requester from '@/services/requester';
 import { ApiResponse } from '@/types/requester';
-import { AggregatedSave, SavesTab, SaveUpvote } from 'share-ur-save-common';
+import { AggregatedSave, SavesTab } from 'share-ur-save-common';
 
 type SavesService = {
 	addSave: typeof addSave;
@@ -18,7 +18,7 @@ type FetchGameSavesResponse = {
 
 type VoteSaveResponse = {
 	message: string;
-	upvote?: SaveUpvote;
+	save: AggregatedSave;
 };
 
 const addSave = (
@@ -57,13 +57,13 @@ const fetchGameSaves = (
 		urlParams.append(key, value.toString());
 	}
 
-	return requester(false).get<FetchGameSavesResponse>(
+	return requester(true).get<FetchGameSavesResponse>(
 		`/game/${gameUuid}/get-saves?${urlParams.toString()}`,
 	);
 };
 
-const upvoteSave = (saveUuid: string): Promise<ApiResponse<SaveUpvote>> =>
-	requester(true).post<SaveUpvote>(`/save/${saveUuid}/upvote`);
+const upvoteSave = (saveUuid: string): Promise<ApiResponse<VoteSaveResponse>> =>
+	requester(true).post<VoteSaveResponse>(`/save/${saveUuid}/upvote`);
 
 const downvoteSave = (
 	saveUuid: string,
